@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --container-bg: #ffffff;
+  --navbar-bg: #ffffff;
+  --background-image: url("/src/assets/img/backgroundImage.jpg");
+}
+
+[data-theme="dark"] {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --container-bg: #333;
+  --navbar-bg: #333;
+  --background-image: url("/src/assets/img/backgroundImage.jpg");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Scrollbar Styles */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  height: 0.5rem;
+  width: 0rem;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-size: 14px;
+  background: var(--bg-color) var(--background-image);
+  color: var(--text-color);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbar {
+  background-color: var(--navbar-bg);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  padding-top: 10px;
+  background-color: var(--container-bg);
+}
+
+@media (max-width: 580px) {
+  .content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    transition: all 0.3s;
+    transform: translateX(100%);
+  }
+
+  .content.active {
+    transform: translateX(0);
+  }
+}
