@@ -53,9 +53,13 @@ const ChatContainer = ({ chat }) => {
   };
 
   return (
-    <div className={chat ? "content active" : "content"}>
+    <div
+      className={
+        chat ? "content active chat-container" : "content flex flex-col flex-1"
+      }
+    >
       {chat ? (
-        <div className="flex flex-col p-4 h-full">
+        <div className="flex flex-col flex-1 p-4">
           <div
             ref={scrollContainerRef}
             className="flex flex-col flex-1 gap-2 p-2 overflow-y-scroll"
@@ -96,9 +100,6 @@ const ChatContainer = ({ chat }) => {
                       className="text-lg text-gray-500 hover:text-secondary my-2 cursor-pointer"
                       onClick={(e) => {
                         e.preventDefault();
-                        console.log(
-                          `Attempting to delete message with id: ${message.id}`
-                        );
                         deleteMessage(message.id);
                       }}
                     >
@@ -114,15 +115,15 @@ const ChatContainer = ({ chat }) => {
             <InputEmoji
               className="textarea flex-1"
               placeholder="Type a message"
+              cleanOnEnter
               value={cleanData(text)}
               onChange={setText}
-              cleanOnEnter
               onKeyDown={handleKeyDown}
             />
 
             <button
               type="submit"
-              className="btn btn-outline btn-sm btn-primary rounded-xl flex items-center justify-center "
+              className="btn btn-outline btn-sm btn-primary rounded-xl flex items-center justify-center"
             >
               <i className="fa-solid fa-paper-plane"></i>
             </button>

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "./UserContext";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify";
 
 export const ChatContext = createContext(null);
 
@@ -12,7 +13,8 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const { url, isAuthenticated, setError, cookies } = useContext(UserContext);
+  const { url, isAuthenticated, authUser, setError, cookies } =
+    useContext(UserContext);
   const token = cookies.get("jwt_authorization");
 
   useEffect(() => {
@@ -24,7 +26,10 @@ export const ChatContextProvider = ({ children }) => {
               Authorization: `Bearer ${token}`,
             },
           });
-          setUsers(res.data);
+          const otherUsers = res.data.filter(
+            (user) => user.userId !== authUser.id
+          );
+          setUsers(otherUsers);
         } catch (err) {
           setError(err.message);
         }
@@ -49,13 +54,14 @@ export const ChatContextProvider = ({ children }) => {
 
   const updateUser = async (updatedInfo) => {
     try {
-      const res = await axios.put(`${url}/user`, updatedInfo, {
+      await axios.put(`${url}/user`, updatedInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUser(res.data);
+      toast.success("Updated the profile successfully!");
     } catch (err) {
+      toast.error("Failed to update the profile!");
       setError(err.message);
     }
   };

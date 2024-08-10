@@ -160,6 +160,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  /*
   useEffect(() => {
     const storedToken = cookies.get("jwt_authorization");
     if (storedToken) {
@@ -177,6 +178,7 @@ export const UserContextProvider = ({ children }) => {
       }
     }
   }, []);
+  */
 
   const cleanData = (inputValue) => {
     return DOMPurify.sanitize(inputValue, { FORBID_TAGS: ["marquee"] });

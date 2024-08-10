@@ -2,6 +2,7 @@ import { useState } from "react";
 import SideNav from "../components/SideNav";
 import ChatContainer from "../components/ChatContainer";
 import Navbar from "../components/Navbar";
+import { ToastContainer } from "react-toastify";
 
 const Chat = () => {
   const [chat, setChat] = useState(false);
@@ -13,9 +14,9 @@ const Chat = () => {
 
   return (
     <>
-      <Navbar toggleSideNav={toggleSideNav} />
       <div className="flex flex-col items-center min-h-screen">
-        <div className="w-full max-w-4xl relative">
+        <Navbar toggleSideNav={toggleSideNav} />
+        <div className="w-full max-w-4xl flex-1 relative flex flex-col">
           {isSideNavOpen && (
             <SideNav
               setChat={setChat}
@@ -23,11 +24,12 @@ const Chat = () => {
               setIsSideNavOpen={setIsSideNavOpen}
             />
           )}
-          <div className="messenger flex">
+          <div className="flex flex-1">
             <ChatContainer chat={chat} />
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

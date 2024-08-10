@@ -6,7 +6,7 @@
   --bg-color: #ffffff;
   --text-color: #000000;
   --container-bg: #ffffff;
-  --navbar-bg: #ffffff;
+  --navbar-bg: #efeeee;
   --background-image: url("/src/assets/img/backgroundImage.jpg");
 }
 
@@ -59,11 +59,6 @@ body {
   background-position: center;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 .navbar {
   background-color: var(--navbar-bg);
 }
@@ -72,7 +67,6 @@ a {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
   padding-top: 10px;
   background-color: var(--container-bg);
 }

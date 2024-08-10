@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import Profile from "./Profile";
 import { ChatContext } from "../context/ChatContext";
+import NoAvatar from "../assets/img/NoAvatar.png";
 
 const Navbar = ({ toggleSideNav }) => {
   const [onProfile, setOnProfile] = useState(false);
@@ -30,7 +31,7 @@ const Navbar = ({ toggleSideNav }) => {
   };
 
   return (
-    <div className="navbar bg-white items-center max-w-4xl mx-auto h-28 flex flex-row justify-between border-b-2 border-y-neutral-200 shadow-2xl shadow-neutral-500 px-6 z-20">
+    <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between border-b-2 border-y-neutral-200 shadow-md shadow-neutral-500 px-6 z-20">
       <div className="flex-none relative">
         <div className="dropdown dropdown-end">
           <div
@@ -39,7 +40,10 @@ const Navbar = ({ toggleSideNav }) => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-20 rounded-full">
-              <img alt="User avatar" src={authUser.avatar} />
+              <img
+                src={authUser.avatar ? authUser.avatar : NoAvatar}
+                alt="Auth user's avatar"
+              />
             </div>
           </div>
           <ul
@@ -70,7 +74,7 @@ const Navbar = ({ toggleSideNav }) => {
       </div>
 
       <div className="flex-1 flex justify-center">
-        <a className="text-xl font-bold">Happy Chat</a>
+        <span className="text-xl font-bold">Happy Chat</span>
       </div>
 
       {/* Flex container for theme controller, users icons, and hamburger menu icon */}
@@ -108,7 +112,7 @@ const Navbar = ({ toggleSideNav }) => {
         {users.length > 2 && (
           <div className="indicator">
             <span className="indicator-item badge badge-primary">
-              +{users.length - 1}
+              +{users.length}
             </span>
             <div
               className="avatar-group -space-x-6 rtl:space-x-reverse"
@@ -117,7 +121,10 @@ const Navbar = ({ toggleSideNav }) => {
               {users.slice(0, 2).map((user, index) => (
                 <div key={index} className="avatar">
                   <div className="w-10">
-                    <img src={user.avatar} alt={`User avatar ${index}`} />
+                    <img
+                      src={user.avatar ? user.avatar : NoAvatar}
+                      alt={`User avatar ${index}`}
+                    />
                   </div>
                 </div>
               ))}
