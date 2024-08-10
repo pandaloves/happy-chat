@@ -111,7 +111,8 @@ export const UserContextProvider = ({ children }) => {
 
       cookies.set("jwt_authorization", token, {
         expires: new Date(decodedToken.exp * 1000),
-        sameSite: "none",
+        sameSite: "strict",
+        httpOnly: true,
         path: "/",
         secure: true,
       });
