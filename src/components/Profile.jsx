@@ -33,22 +33,19 @@ const Profile = ({ open, setOpen }) => {
       },
     };
 
-    try {
-      await updateUser(updatedInformation);
+    updateUser(updatedInformation);
 
-      const updatedUserDetail = {
-        id: authUser.id,
-        user: updatedUsername,
-        email: updatedEmail,
-        avatar: authAvatar,
-      };
+    const updatedUserDetail = {
+      ...authUser,
+      id: authUser.id,
+      user: updatedUsername,
+      email: updatedEmail,
+      avatar: authAvatar,
+    };
 
-      setAuthUser(updatedUserDetail);
-      console.log(updatedUserDetail);
-      setOnEdit(false);
-    } catch (error) {
-      toast.error("Could not update your profile. Try again.");
-    }
+    setAuthUser(updatedUserDetail);
+    console.log(updatedUserDetail);
+    setOnEdit(false);
   };
 
   const handleAvatarClick = (e) => {
