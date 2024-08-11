@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +15,7 @@ export const UserContextProvider = ({ children }) => {
   const [avatar, setAvatar] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [csrfToken, setCsrfToken] = useState("");
-  const cookies = new Cookies();
+  const cookies = new Cookies(null, { path: "/" });
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -112,8 +112,6 @@ export const UserContextProvider = ({ children }) => {
       cookies.set("jwt_authorization", token, {
         expires: new Date(decodedToken.exp * 1000),
         sameSite: "strict",
-        httpOnly: true,
-        path: "/",
         secure: true,
       });
 
