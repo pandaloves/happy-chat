@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,9 +23,7 @@ export const UserContextProvider = ({ children }) => {
     !!cookies.get("jwt_authorization")
   );
   const [authUser, setAuthUser] = useState(
-    cookies.get("jwt_authorization")
-      ? decodeToken(cookies.get("jwt_authorization"))
-      : null
+    JSON.parse(localStorage.getItem("authUser")) || []
   );
   const [url, setUrl] = useState("https://chatify-api.up.railway.app");
   const navigate = useNavigate();
@@ -115,7 +113,12 @@ export const UserContextProvider = ({ children }) => {
         secure: true,
       });
 
-      setAuthUser(decodedToken);
+      const { id, user, email, avatar, invite } = decodedToken;
+      const userDetail = [id, user, email, avatar, invite];
+
+      setAuthUser(userDetail);
+      localStorage.setItem("authUser", JSON.stringify(userDetail));
+
       toast.success("Logged in successfully!");
       setTimeout(() => {
         navigate("/chat");
@@ -130,6 +133,7 @@ export const UserContextProvider = ({ children }) => {
   const handleLogout = () => {
     setIsAuthenticated(false);
     cookies.remove("jwt_authorization");
+    localStorage.removeItem("authUser");
     setToken("");
     setAuthUser(null);
     toast.success("Logged out successfully!");
@@ -149,6 +153,7 @@ export const UserContextProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       cookies.remove("jwt_authorization");
+      localStorage.removeItem("authUser");
       toast.success("Your account has been deleted successfully!");
       setTimeout(() => {
         handleLogout();
@@ -162,22 +167,15 @@ export const UserContextProvider = ({ children }) => {
   /*
   useEffect(() => {
     const storedToken = cookies.get("jwt_authorization");
-    if (storedToken) {
-      try {
-        const decodedToken = decodeToken(storedToken);
-        setToken(storedToken);
-        setAuthUser(decodedToken);
-        setIsAuthenticated(true);
-      } catch (e) {
-        console.error("Invalid token");
-        setIsAuthenticated(false);
-        setToken("");
-        setAuthUser(null);
-        cookies.remove("jwt_authorization");
-      }
+
+    const storedUserDetail = JSON.parse(localStorage.getItem("authUser"));
+    if (storedToken && storedUserDetail) {
+      setToken(storedToken);
+      setAuthUser(storedUserDetail);
+      setIsAuthenticated(true);
     }
-  }, []);
-  */
+   }, []);
+   */
 
   const cleanData = (inputValue) => {
     return DOMPurify.sanitize(inputValue, { FORBID_TAGS: ["marquee"] });
