@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useState } from "react";
+import axios from "../utils/AxiosConfig";
 import { UserContext } from "./UserContext";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
@@ -13,13 +13,13 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const { url, setError, cookies } = useContext(UserContext);
+  const { setError, cookies } = useContext(UserContext);
 
   const token = cookies.get("jwt_authorization");
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(`${url}/users`, {
+      const res = await axios.get(`/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,7 +32,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const fetchUser = async (userId) => {
     try {
-      const res = await axios.get(`${url}/users/${userId}`, {
+      const res = await axios.get(`/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -45,7 +45,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const updateUser = async (updatedInfo) => {
     try {
-      await axios.put(`${url}/user`, updatedInfo, {
+      await axios.put(`/user`, updatedInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -75,7 +75,7 @@ export const ChatContextProvider = ({ children }) => {
 
     try {
       const res = await axios.post(
-        `${url}/invite/${userId}`,
+        `/invite/${userId}`,
         { conversationId: inviteConversationId },
         {
           headers: {
@@ -92,7 +92,7 @@ export const ChatContextProvider = ({ children }) => {
   const createMessage = async (text) => {
     try {
       const res = await axios.post(
-        `${url}/messages`,
+        `/messages`,
         {
           text,
           conversationId,
@@ -116,7 +116,7 @@ export const ChatContextProvider = ({ children }) => {
   const fetchMessages = async (conversationId) => {
     try {
       const res = await axios.get(
-        `${url}/messages?conversationId=${conversationId}`,
+        `/messages?conversationId=${conversationId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const deleteMessage = async (id) => {
     try {
-      await axios.delete(`${url}/messages/${id}`, {
+      await axios.delete(`/messages/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -149,6 +149,7 @@ export const ChatContextProvider = ({ children }) => {
     users,
     setUsers,
     user,
+    setUser,
     invitedName,
     invitedAvatar,
     messages,
