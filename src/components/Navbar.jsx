@@ -7,9 +7,32 @@ import NoAvatar from "../assets/img/NoAvatar.png";
 const Navbar = ({ toggleSideNav }) => {
   const [onProfile, setOnProfile] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-  const { users } = useContext(ChatContext);
-  const { authUser, handleDeleteAccount, handleLogout } =
-    useContext(UserContext);
+  const { users, setUsers, fetchUsers } = useContext(ChatContext);
+  const {
+    setError,
+    isAuthenticated,
+    authUser,
+    handleDeleteAccount,
+    handleLogout,
+  } = useContext(UserContext);
+  
+  const [id, username, email, avatar, invite] = authUser;
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      if (isAuthenticated) {
+        try {
+          const allUsers = await fetchUsers();
+          const otherUsers = allUsers.filter((user) => user.userId !== id);
+          setUsers(otherUsers);
+        } catch (err) {
+          setError(err.message);
+        }
+      }
+    };
+
+    loadUsers();
+  }, [isAuthenticated, id, setError]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -26,7 +49,7 @@ const Navbar = ({ toggleSideNav }) => {
         "Are you sure you want to delete your account? This cannot be undone."
       )
     ) {
-      handleDeleteAccount(authUser.id);
+      handleDeleteAccount(id);
     }
   };
 
@@ -40,10 +63,7 @@ const Navbar = ({ toggleSideNav }) => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-20 rounded-full">
-              <img
-                src={authUser.avatar ? authUser.avatar : NoAvatar}
-                alt="Auth user's avatar"
-              />
+              <img src={avatar ? avatar : NoAvatar} alt="Auth user's avatar" />
             </div>
           </div>
           <ul

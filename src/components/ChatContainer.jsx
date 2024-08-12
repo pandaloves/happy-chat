@@ -9,6 +9,7 @@ import InputEmoji from "react-input-emoji";
 const ChatContainer = ({ chat }) => {
   const [text, setText] = useState("");
   const { authUser, cleanData } = useContext(UserContext);
+  const [id, username, email, avatar, invite] = authUser;
 
   const {
     messages,
@@ -69,7 +70,7 @@ const ChatContainer = ({ chat }) => {
                 <div
                   key={uuidv4()}
                   className={`chat ${
-                    message.userId === authUser.id ? "chat-end" : "chat-start"
+                    message.userId === id ? "chat-end" : "chat-start"
                   }`}
                 >
                   <div className="chat-image avatar">
@@ -77,7 +78,7 @@ const ChatContainer = ({ chat }) => {
                       <img
                         alt="avatar"
                         src={
-                          message.userId === authUser.id
+                          message.userId === id
                             ? authUser.avatar
                             : invitedAvatar
                         }
@@ -85,7 +86,7 @@ const ChatContainer = ({ chat }) => {
                     </div>
                   </div>
                   <div className="chat-header">
-                    {message.userId === authUser.id
+                    {message.userId === id
                       ? authUser.user
                       : invitedName}
                     <time className="text-sm opacity-50 ml-2">
@@ -95,7 +96,7 @@ const ChatContainer = ({ chat }) => {
                   <div className="chat-bubble chat-bubble-primary mt-1 text-lg">
                     {message.text}
                   </div>
-                  {message.userId === authUser.id && (
+                  {message.userId === id && (
                     <span
                       className="text-lg text-gray-500 hover:text-secondary my-2 cursor-pointer"
                       onClick={(e) => {

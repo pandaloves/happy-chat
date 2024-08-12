@@ -8,36 +8,27 @@ export const ChatContext = createContext(null);
 
 export const ChatContextProvider = ({ children }) => {
   const [conversationId, setConversationId] = useState("");
-  const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const { url, isAuthenticated, authUser, setError, cookies } =
-    useContext(UserContext);
+  const { url, setError, cookies } = useContext(UserContext);
+
   const token = cookies.get("jwt_authorization");
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      const fetchUsers = async () => {
-        try {
-          const res = await axios.get(`${url}/users`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          const otherUsers = res.data.filter(
-            (user) => user.userId !== authUser.id
-          );
-          setUsers(otherUsers);
-        } catch (err) {
-          setError(err.message);
-        }
-      };
-
-      fetchUsers();
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(`${url}/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      setError(err.message);
     }
-  }, [isAuthenticated, token, url, setError]);
+  };
 
   const fetchUser = async (userId) => {
     try {
@@ -155,14 +146,16 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const contextValue = {
-    user,
     users,
+    setUsers,
+    user,
     invitedName,
     invitedAvatar,
     messages,
     conversationId,
     updateUser,
     inviteUser,
+    fetchUsers,
     fetchUser,
     createMessage,
     fetchMessages,
