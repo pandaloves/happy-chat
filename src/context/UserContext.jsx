@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/AxiosConfig";
 import { decodeToken } from "react-jwt";
 import DOMPurify from "dompurify";
 import Cookies from "universal-cookie";
@@ -25,7 +25,6 @@ export const UserContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem("authUser")) || []
   );
-  const [url, setUrl] = useState("https://chatify-api.up.railway.app");
   const navigate = useNavigate();
 
   const toggleShowPassword = (e) => {
@@ -45,12 +44,12 @@ export const UserContextProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      const csrfResponse = await axios.patch(`${url}/csrf`, {
+      const csrfResponse = await axios.patch(`/csrf`, {
         credentials: "include",
       });
       setCsrfToken(csrfResponse.data.csrfToken);
 
-      await axios.post(`${url}/auth/register`, {
+      await axios.post(`/auth/register`, {
         username,
         password,
         email,
@@ -91,11 +90,13 @@ export const UserContextProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      const csrfResponse = await axios.patch(`${url}/csrf`);
+      const csrfResponse = await axios.patch(`/csrf`, {
+        credentials: "include",
+      });
       setCsrfToken(csrfResponse.data.csrfToken);
 
       const loginResponse = await axios.post(
-        `${url}/auth/token`,
+        `/auth/token`,
         { username, password, csrfToken: csrfResponse.data.csrfToken },
         { credentials: "include" }
       );
@@ -149,7 +150,7 @@ export const UserContextProvider = ({ children }) => {
     }
 
     try {
-      await axios.delete(`${url}/users/${userId}`, {
+      await axios.delete(`/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       cookies.remove("jwt_authorization");
@@ -163,19 +164,6 @@ export const UserContextProvider = ({ children }) => {
       toast.error("Failed to delete the account. Please try again later.");
     }
   };
-
-  /*
-  useEffect(() => {
-    const storedToken = cookies.get("jwt_authorization");
-
-    const storedUserDetail = JSON.parse(localStorage.getItem("authUser"));
-    if (storedToken && storedUserDetail) {
-      setToken(storedToken);
-      setAuthUser(storedUserDetail);
-      setIsAuthenticated(true);
-    }
-   }, []);
-   */
 
   const cleanData = (inputValue) => {
     return DOMPurify.sanitize(inputValue, { FORBID_TAGS: ["marquee"] });
@@ -191,8 +179,6 @@ export const UserContextProvider = ({ children }) => {
     setPassword,
     avatar,
     setAvatar,
-    url,
-    setUrl,
     authUser,
     setAuthUser,
     isAuthenticated,
