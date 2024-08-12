@@ -77,18 +77,12 @@ const ChatContainer = ({ chat }) => {
                     <div className="w-10 rounded-full">
                       <img
                         alt="avatar"
-                        src={
-                          message.userId === id
-                            ? authUser.avatar
-                            : invitedAvatar
-                        }
+                        src={message.userId === id ? avatar : invitedAvatar}
                       />
                     </div>
                   </div>
                   <div className="chat-header">
-                    {message.userId === id
-                      ? authUser.user
-                      : invitedName}
+                    {message.userId === id ? username : invitedName}
                     <time className="text-sm opacity-50 ml-2">
                       {format(message.createdAt)}
                     </time>
