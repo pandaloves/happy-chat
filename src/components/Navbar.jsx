@@ -15,7 +15,7 @@ const Navbar = ({ toggleSideNav }) => {
     handleDeleteAccount,
     handleLogout,
   } = useContext(UserContext);
-  
+
   const [id, username, email, avatar, invite] = authUser;
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const Navbar = ({ toggleSideNav }) => {
           setUsers(otherUsers);
         } catch (err) {
           setError(err.message);
+          console.error(err);
         }
       }
     };

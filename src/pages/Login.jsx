@@ -10,6 +10,7 @@ const Login = () => {
     setUsername,
     password,
     setPassword,
+    authUser,
     error,
     showPassword,
     toggleShowPassword,
@@ -18,6 +19,19 @@ const Login = () => {
     handleLogin,
     cleanData,
   } = useContext(UserContext);
+  const [id, user, email, avatar, invite] = authUser;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleLogin();
+
+    const pageName = "Chat";
+    const europeanTime = new Date().toLocaleString("en-GB", {
+      timeZone: "Europe/Berlin",
+    });
+
+    console.info(`[${europeanTime} user ${id} visited the ${pageName} page]`);
+  };
 
   return (
     <>
@@ -29,7 +43,7 @@ const Login = () => {
             </h1>
           </div>
           {error && <div className="text-red-500 text-center">{error}</div>}
-          <form className="card-body" onSubmit={handleLogin}>
+          <form className="card-body" onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Username</span>

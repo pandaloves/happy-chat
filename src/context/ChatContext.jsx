@@ -13,9 +13,8 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const { setError, cookies } = useContext(UserContext);
-
-  const token = cookies.get("jwt_authorization");
+  const { setError } = useContext(UserContext);
+  const token = localStorage.getItem("token")
 
   const fetchUsers = async () => {
     try {
@@ -27,6 +26,7 @@ export const ChatContextProvider = ({ children }) => {
       return res.data;
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -40,6 +40,7 @@ export const ChatContextProvider = ({ children }) => {
       return res.data;
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -54,6 +55,7 @@ export const ChatContextProvider = ({ children }) => {
     } catch (err) {
       toast.error("Failed to update the profile!");
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -64,14 +66,14 @@ export const ChatContextProvider = ({ children }) => {
       setInvitedName(userDetails.username);
       setInvitedAvatar(userDetails.avatar);
 
-      console.log("invitedName:", userDetails.username);
-      console.log("invitedAvatar:", userDetails.avatar);
+      console.info("invitedName:", userDetails.username);
+      console.info("invitedAvatar:", userDetails.avatar);
     }
 
     const inviteConversationId = uuidv4();
     setConversationId(inviteConversationId);
 
-    console.log("conversationId:", inviteConversationId);
+    console.info("conversationId:", inviteConversationId);
 
     try {
       const res = await axios.post(
@@ -83,9 +85,10 @@ export const ChatContextProvider = ({ children }) => {
           },
         }
       );
-      console.log(res.data);
+      console.info(res.data);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -105,11 +108,12 @@ export const ChatContextProvider = ({ children }) => {
       );
 
       const newMsg = res.data.latestMessage;
-      console.log("new message:", newMsg);
+      console.info("new message:", newMsg);
 
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -126,6 +130,7 @@ export const ChatContextProvider = ({ children }) => {
       setMessages(res.data);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -139,9 +144,10 @@ export const ChatContextProvider = ({ children }) => {
       setMessages((messages) =>
         messages.filter((message) => message.id !== id)
       );
-      console.log(`Deleted message with id: ${id}`);
+      console.warn(`Deleted message with id: ${id}`);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 

@@ -1,10 +1,18 @@
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
+
 const InitContainer = () => {
+  const { authUser } = useContext(UserContext);
+  const [id, username, email, avatar, invite] = authUser;
+
   return (
-    <div className="flex justify-center items-center h-full text-white">
-      <div className="flex flex-col justify-center items-center gap-2 text-slate-700">
+    <div className="flex justify-center items-center h-full">
+      <div className="flex flex-col justify-center items-center gap-2">
         <i className="fa-solid fa-comments text-3xl"></i>
 
-        <h2 className="text-xl font-bold">Welcome!</h2>
+        <h2 className="text-xl font-bold">
+          Welcome, <span className="font-bold text-secondary">{username}</span>!
+        </h2>
         <p className="text-lg">Select a user to start a conversation.</p>
       </div>
     </div>

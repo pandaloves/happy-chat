@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "../utils/AxiosConfig";
 import { decodeToken } from "react-jwt";
 import DOMPurify from "dompurify";
-import Cookies from "universal-cookie";
 
 export const UserContext = createContext(null);
 
@@ -15,12 +14,11 @@ export const UserContextProvider = ({ children }) => {
   const [avatar, setAvatar] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [csrfToken, setCsrfToken] = useState("");
-  const cookies = new Cookies(null, { path: "/" });
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(
-    !!cookies.get("jwt_authorization")
+    !!localStorage.getItem("token")
   );
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem("authUser")) || []
@@ -44,10 +42,9 @@ export const UserContextProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      const csrfResponse = await axios.patch(`/csrf`, {
-        credentials: "include",
-      });
+      const csrfResponse = await axios.patch(`/csrf`);
       setCsrfToken(csrfResponse.data.csrfToken);
+      localStorage.setItem("csrfToken", csrfResponse.data.csrfToken);
 
       await axios.post(`/auth/register`, {
         username,
@@ -57,7 +54,7 @@ export const UserContextProvider = ({ children }) => {
         csrfToken: csrfResponse.data.csrfToken,
       });
 
-      toast.success("Signed up successfully!");
+      toast.success("Registered successfully!");
       setTimeout(() => {
         navigate("/");
       }, 1000);
@@ -78,9 +75,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     if (!username || !password) {
       toast.warning("Please fill in all required fields.");
       return;
@@ -90,29 +85,27 @@ export const UserContextProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      const csrfResponse = await axios.patch(`/csrf`, {
-        credentials: "include",
-      });
-      setCsrfToken(csrfResponse.data.csrfToken);
+      let currentCsrfToken = csrfToken;
+      if (!currentCsrfToken) {
+        const csrfResponse = await axios.patch(`/csrf`);
+        currentCsrfToken = csrfResponse.data.csrfToken;
+        setCsrfToken(currentCsrfToken);
+        localStorage.setItem("csrfToken", currentCsrfToken);
+      }
 
-      const loginResponse = await axios.post(
-        `/auth/token`,
-        { username, password, csrfToken: csrfResponse.data.csrfToken },
-        { credentials: "include" }
-      );
+      const loginResponse = await axios.post(`/auth/token`, {
+        username,
+        password,
+        csrfToken: currentCsrfToken,
+      });
 
       const token = loginResponse.data.token;
       setToken(token);
       setIsAuthenticated(true);
+      localStorage.setItem("token", token);
 
       // Decode the JWT token to access claims
       const decodedToken = decodeToken(token);
-
-      cookies.set("jwt_authorization", token, {
-        expires: new Date(decodedToken.exp * 1000),
-        sameSite: "strict",
-        secure: true,
-      });
 
       const { id, user, email, avatar, invite } = decodedToken;
       const userDetail = [id, user, email, avatar, invite];
@@ -133,9 +126,11 @@ export const UserContextProvider = ({ children }) => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    cookies.remove("jwt_authorization");
-    localStorage.removeItem("authUser");
+    localStorage.removeItem("csrfToken");
+    localStorage.removeItem("token");
     setToken("");
+    localStorage.removeItem("authUser");
+
     setAuthUser(null);
     toast.success("Logged out successfully!");
     setTimeout(() => {
@@ -153,7 +148,9 @@ export const UserContextProvider = ({ children }) => {
       await axios.delete(`/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      cookies.remove("jwt_authorization");
+      localStorage.removeItem("csrfToken");
+      localStorage.removeItem("token");
+      setToken("");
       localStorage.removeItem("authUser");
       toast.success("Your account has been deleted successfully!");
       setTimeout(() => {
@@ -193,7 +190,6 @@ export const UserContextProvider = ({ children }) => {
     handleLogout,
     handleDeleteAccount,
     cleanData,
-    cookies,
   };
 
   return (
