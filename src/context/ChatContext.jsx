@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from "../utils/AxiosConfig";
-import { UserContext } from "./UserContext";
 import { v4 as uuidv4 } from "uuid";
+import { UserContext } from "./UserContext";
 import { toast } from "react-toastify";
 
 export const ChatContext = createContext(null);
@@ -13,9 +13,9 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const { setError, cookies } = useContext(UserContext);
-
-  const token = cookies.get("jwt_authorization");
+  const { authUser, setError } = useContext(UserContext);
+  const [id, username, email, avatar, invite] = authUser;
+  const token = localStorage.getItem("token");
 
   const fetchUsers = async () => {
     try {
@@ -27,6 +27,7 @@ export const ChatContextProvider = ({ children }) => {
       return res.data;
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -40,6 +41,7 @@ export const ChatContextProvider = ({ children }) => {
       return res.data;
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -54,38 +56,49 @@ export const ChatContextProvider = ({ children }) => {
     } catch (err) {
       toast.error("Failed to update the profile!");
       setError(err.message);
+      console.error(err);
     }
   };
 
-  const inviteUser = async (userId) => {
-    const data = await fetchUser(userId);
-    const userDetails = data ? data[0] : null;
-    if (userDetails) {
-      setInvitedName(userDetails.username);
-      setInvitedAvatar(userDetails.avatar);
-
-      console.log("invitedName:", userDetails.username);
-      console.log("invitedAvatar:", userDetails.avatar);
-    }
-
-    const inviteConversationId = uuidv4();
-    setConversationId(inviteConversationId);
-
-    console.log("conversationId:", inviteConversationId);
-
+  const inviteUser = async (username, userId) => {
     try {
+      /*
+      const data = await fetchUser(userId);
+      const userDetails = data ? data[0] : null;
+
+      if (userDetails) {
+        setInvitedName(userDetails.username);
+        setInvitedAvatar(userDetails.avatar);
+
+        console.info("invitedName:", userDetails.username);
+        console.info("invitedAvatar:", userDetails.avatar);
+      }
+      */
+
+      const inviteArray = JSON.parse(invite);
+      const invitedData = inviteArray.find(
+        (inviteItem) => inviteItem.username === username
+      );
+
+      const idToUse = invitedData ? invitedData.conversationId : uuidv4();
+
+      setConversationId(idToUse);
+
       const res = await axios.post(
         `/invite/${userId}`,
-        { conversationId: inviteConversationId },
+        { conversationId: idToUse },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(res.data);
+
+      console.log("conversationId used in invite:", idToUse);
+      console.info(res.data);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -105,11 +118,12 @@ export const ChatContextProvider = ({ children }) => {
       );
 
       const newMsg = res.data.latestMessage;
-      console.log("new message:", newMsg);
+      console.info("new message:", newMsg);
 
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -126,6 +140,7 @@ export const ChatContextProvider = ({ children }) => {
       setMessages(res.data);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -139,9 +154,10 @@ export const ChatContextProvider = ({ children }) => {
       setMessages((messages) =>
         messages.filter((message) => message.id !== id)
       );
-      console.log(`Deleted message with id: ${id}`);
+      console.warn(`Deleted message with id: ${id}`);
     } catch (err) {
       setError(err.message);
+      console.error(err);
     }
   };
 
@@ -154,6 +170,7 @@ export const ChatContextProvider = ({ children }) => {
     invitedAvatar,
     messages,
     conversationId,
+    setConversationId,
     updateUser,
     inviteUser,
     fetchUsers,

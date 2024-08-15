@@ -9,10 +9,6 @@ import { ChatContextProvider } from "./context/ChatContext";
 import { useEffect } from "react";
 
 function App() {
-  console.log("Hello!");
-  console.warn("Careful there!");
-  console.error("Oh, no!");
-
   console.log(import.meta.env);
 
   useEffect(() => {
