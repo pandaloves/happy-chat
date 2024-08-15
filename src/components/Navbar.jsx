@@ -8,13 +8,8 @@ const Navbar = ({ toggleSideNav }) => {
   const [onProfile, setOnProfile] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const { users, setUsers, fetchUsers } = useContext(ChatContext);
-  const {
-    setError,
-    isAuthenticated,
-    authUser,
-    handleDeleteAccount,
-    handleLogout,
-  } = useContext(UserContext);
+  const { isAuthenticated, authUser, handleDeleteAccount, handleLogout } =
+    useContext(UserContext);
 
   const [id, username, email, avatar, invite] = authUser;
 
@@ -26,14 +21,13 @@ const Navbar = ({ toggleSideNav }) => {
           const otherUsers = allUsers.filter((user) => user.userId !== id);
           setUsers(otherUsers);
         } catch (err) {
-          setError(err.message);
           console.error(err);
         }
       }
     };
 
     loadUsers();
-  }, [isAuthenticated, id, setError]);
+  }, [isAuthenticated, id]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
