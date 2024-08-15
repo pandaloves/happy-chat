@@ -13,8 +13,8 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const [invitedId, setInvitedId] = useState("");
-  const { authUser, setError } = useContext(UserContext);
+  const { setError } = useContext(UserContext);
+  const authUser = JSON.parse(localStorage.getItem("authUser"));
   const [id, username, email, avatar, invite] = authUser;
   const token = localStorage.getItem("token");
 
@@ -69,10 +69,10 @@ export const ChatContextProvider = ({ children }) => {
       if (userDetails) {
         setInvitedName(userDetails.username);
         setInvitedAvatar(userDetails.avatar);
-        setInvitedId(userDetails.invite);
 
         console.info("invitedName:", userDetails.username);
         console.info("invitedAvatar:", userDetails.avatar);
+        console.log("invtedDetails:", userDetails.invite);
       }
 
       const inviteArray = JSON.parse(userDetails.invite);
