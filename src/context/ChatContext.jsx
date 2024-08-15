@@ -13,6 +13,7 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
+  const [invitedId, setInvitedId] = useState("");
   const { authUser, setError } = useContext(UserContext);
   const [id, username, email, avatar, invite] = authUser;
   const token = localStorage.getItem("token");
@@ -60,22 +61,21 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
-  const inviteUser = async (username, userId) => {
+  const inviteUser = async (userId) => {
     try {
-      /*
       const data = await fetchUser(userId);
       const userDetails = data ? data[0] : null;
 
       if (userDetails) {
         setInvitedName(userDetails.username);
         setInvitedAvatar(userDetails.avatar);
+        setInvitedId(userDetails.invite);
 
         console.info("invitedName:", userDetails.username);
         console.info("invitedAvatar:", userDetails.avatar);
       }
-      */
 
-      const inviteArray = JSON.parse(invite);
+      const inviteArray = JSON.parse(userDetails.invite);
       const invitedData = inviteArray.find(
         (inviteItem) => inviteItem.username === username
       );

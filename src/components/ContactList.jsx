@@ -20,7 +20,7 @@ const ContactList = ({ user, setChat, matchedUser }) => {
         className="px-4 py-3 cursor-pointer hover:bg-slate-200 rounded-lg flex flex-row justify-evenly items-center h-36"
         onClick={() => {
           setChat(true);
-          inviteUser(user.username, user.userId);
+          inviteUser(user.userId);
         }}
       >
         <SpecificUser src={user.avatar} username={user.username} />
