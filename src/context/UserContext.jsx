@@ -129,11 +129,10 @@ export const UserContextProvider = ({ children }) => {
     setIsAuthenticated(false);
     localStorage.removeItem("csrfToken");
     localStorage.removeItem("token");
-    setToken("");
     localStorage.removeItem("authUser");
 
-    setAuthUser(null);
-    toast.success("Logged out successfully!");
+    toast.error("Logged out successfully!");
+
     setTimeout(() => {
       navigate("/");
     }, 2000);
@@ -147,13 +146,13 @@ export const UserContextProvider = ({ children }) => {
 
     try {
       await axios.delete(`/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      localStorage.removeItem("csrfToken");
-      localStorage.removeItem("token");
-      setToken("");
-      localStorage.removeItem("authUser");
+
       toast.success("Your account has been deleted successfully!");
+
       setTimeout(() => {
         handleLogout();
         navigate("/login");

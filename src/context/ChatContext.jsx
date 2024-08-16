@@ -13,9 +13,9 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
-  const { setError } = useContext(UserContext);
-  const authUser = JSON.parse(localStorage.getItem("authUser"));
+  const { authUser, setError } = useContext(UserContext);
   const [id, username, email, avatar, invite] = authUser;
+
   const token = localStorage.getItem("token");
 
   const fetchUsers = async () => {
@@ -72,7 +72,7 @@ export const ChatContextProvider = ({ children }) => {
 
         console.info("invitedName:", userDetails.username);
         console.info("invitedAvatar:", userDetails.avatar);
-        console.log("invtedDetails:", userDetails.invite);
+        console.log("invitedDetails:", userDetails.invite);
       }
 
       const inviteArray = JSON.parse(userDetails.invite);
@@ -84,18 +84,25 @@ export const ChatContextProvider = ({ children }) => {
 
       setConversationId(idToUse);
 
-      const res = await axios.post(
-        `/invite/${userId}`,
-        { conversationId: idToUse },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const inviteExists = inviteArray.find(
+        (inviteItem) => inviteItem.conversationId === idToUse
       );
 
-      console.log("conversationId used in invite:", idToUse);
-      console.info(res.data);
+      if (inviteExists) {
+        return;
+      } else {
+        const res = await axios.post(
+          `/invite/${userId}`,
+          { conversationId: idToUse },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.info("conversationId used in invite:", idToUse);
+        console.info(res.data);
+      }
     } catch (err) {
       setError(err.message);
       console.error(err);
