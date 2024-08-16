@@ -51,7 +51,9 @@ const Register = () => {
     setEmailMatch(value === email);
   };
 
-  const handleAvatarClick = () => {
+  const handleAvatarClick = (e) => {
+    e.preventDefault();
+
     const randomAvatar = `https://i.pravatar.cc/150?img=${
       Math.floor(Math.random() * 70) + 1
     }`;
@@ -197,6 +199,7 @@ const Register = () => {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={handleAvatarClick}
                 className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-v-1 hover:scale-110"
               >

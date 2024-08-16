@@ -83,7 +83,7 @@ const ChatContainer = ({ chat }) => {
                   </div>
                   <div className="chat-header">
                     {message.userId === id ? username : invitedName}
-                    <time className="text-sm opacity-50 ml-2">
+                    <time className="text-sm ml-2">
                       {format(message.createdAt)}
                     </time>
                   </div>
@@ -92,7 +92,7 @@ const ChatContainer = ({ chat }) => {
                   </div>
                   {message.userId === id && (
                     <span
-                      className="text-lg text-gray-500 hover:text-secondary my-2 cursor-pointer"
+                      className="text-lg hover:text-secondary my-2 cursor-pointer"
                       onClick={(e) => {
                         e.preventDefault();
                         deleteMessage(message.id);
