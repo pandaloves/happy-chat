@@ -10,7 +10,7 @@ const Navbar = ({ toggleSideNav }) => {
   const { users, setUsers, fetchUsers } = useContext(ChatContext);
   const { isAuthenticated, authUser, handleDeleteAccount, handleLogout } =
     useContext(UserContext);
-
+ 
   const [id, username, email, avatar, invite] = authUser;
 
   useEffect(() => {
