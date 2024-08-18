@@ -109,7 +109,6 @@ export const UserContextProvider = ({ children }) => {
 
       const { id, user, email, avatar, invite } = decodedToken;
       const userDetail = [id, user, email, avatar, invite];
-      console.log(userDetail);
 
       setAuthUser(userDetail);
       localStorage.setItem("authUser", JSON.stringify(userDetail));
@@ -170,6 +169,7 @@ export const UserContextProvider = ({ children }) => {
     username,
     setUsername,
     csrfToken,
+    token,
     email,
     setEmail,
     password,

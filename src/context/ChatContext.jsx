@@ -69,10 +69,6 @@ export const ChatContextProvider = ({ children }) => {
       if (userDetails) {
         setInvitedName(userDetails.username);
         setInvitedAvatar(userDetails.avatar);
-
-        console.info("invitedName:", userDetails.username);
-        console.info("invitedAvatar:", userDetails.avatar);
-        console.log("invitedDetails:", userDetails.invite);
       }
 
       const inviteArray = JSON.parse(userDetails.invite);
@@ -81,6 +77,7 @@ export const ChatContextProvider = ({ children }) => {
       );
 
       const idToUse = invitedData ? invitedData.conversationId : uuidv4();
+      console.info("conversationId:", idToUse);
 
       setConversationId(idToUse);
 
@@ -91,7 +88,7 @@ export const ChatContextProvider = ({ children }) => {
       if (inviteExists) {
         return;
       } else {
-        const res = await axios.post(
+        await axios.post(
           `/invite/${userId}`,
           { conversationId: idToUse },
           {
@@ -100,8 +97,6 @@ export const ChatContextProvider = ({ children }) => {
             },
           }
         );
-        console.info("conversationId used in invite:", idToUse);
-        console.info(res.data);
       }
     } catch (err) {
       setError(err.message);
@@ -125,7 +120,6 @@ export const ChatContextProvider = ({ children }) => {
       );
 
       const newMsg = res.data.latestMessage;
-      console.info("new message:", newMsg);
 
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     } catch (err) {
@@ -161,7 +155,6 @@ export const ChatContextProvider = ({ children }) => {
       setMessages((messages) =>
         messages.filter((message) => message.id !== id)
       );
-      console.warn(`Deleted message with id: ${id}`);
     } catch (err) {
       setError(err.message);
       console.error(err);
