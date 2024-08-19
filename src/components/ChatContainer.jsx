@@ -5,9 +5,11 @@ import InitContainer from "./InitContainer";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
+import { ImSpinner6 } from "react-icons/im";
 
 const ChatContainer = ({ chat }) => {
   const [text, setText] = useState("");
+  const [deletingMessageId, setDeletingMessageId] = useState(null); // Track which message is being deleted
   const { authUser, cleanData } = useContext(UserContext);
   const [id, username, email, avatar, invite] = authUser;
 
@@ -53,6 +55,17 @@ const ChatContainer = ({ chat }) => {
     }
   };
 
+  const handleDelete = async (messageId) => {
+    setDeletingMessageId(messageId);
+    try {
+      await deleteMessage(messageId);
+    } catch (error) {
+      console.error("Failed to delete message:", error);
+    } finally {
+      setDeletingMessageId(null);
+    }
+  };
+
   return (
     <div
       className={
@@ -63,7 +76,7 @@ const ChatContainer = ({ chat }) => {
         <div className="flex flex-col flex-1 p-4">
           <div
             ref={scrollContainerRef}
-            className="flex flex-col flex-1 gap-2 p-2 overflow-y-scroll"
+            className="flex flex-col flex-1 gap-2 p-2 overflow-y-auto"
           >
             {messages &&
               messages.map((message) => (
@@ -93,36 +106,42 @@ const ChatContainer = ({ chat }) => {
                   {message.userId === id && (
                     <span
                       className="text-lg hover:text-secondary my-2 cursor-pointer"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        deleteMessage(message.id);
-                      }}
+                      onClick={() => handleDelete(message.id)}
                     >
-                      Delete
+                      {deletingMessageId === message.id ? (
+                        <ImSpinner6 className="animate-spin text-2xl mr-2" />
+                      ) : (
+                        "Delete"
+                      )}
                     </span>
                   )}
                 </div>
               ))}
           </div>
 
-          <div className="divider"></div>
-          <form className="h-16 flex items-center p-2" onSubmit={handleSubmit}>
-            <InputEmoji
-              className="textarea flex-1"
-              placeholder="Type a message"
-              cleanOnEnter
-              value={cleanData(text)}
-              onChange={setText}
-              onKeyDown={handleKeyDown}
-            />
-
-            <button
-              type="submit"
-              className="btn btn-outline btn-sm btn-primary rounded-xl flex items-center justify-center"
+          <div className="">
+            <div className="divider"></div>
+            <form
+              className="h-16 flex items-center p-2"
+              onSubmit={handleSubmit}
             >
-              <i className="fa-solid fa-paper-plane"></i>
-            </button>
-          </form>
+              <InputEmoji
+                className="textarea flex-1"
+                placeholder="Type a message"
+                cleanOnEnter
+                value={cleanData(text)}
+                onChange={setText}
+                onKeyDown={handleKeyDown}
+              />
+
+              <button
+                type="submit"
+                className="btn btn-outline btn-sm btn-primary rounded-xl flex items-center justify-center"
+              >
+                <i className="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
         </div>
       ) : (
         <InitContainer />

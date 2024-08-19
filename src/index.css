@@ -50,7 +50,6 @@ html {
 }
 
 body {
-  min-height: 100vh;
   font-size: 14px;
   background: var(--bg-color) var(--background-image);
   color: var(--text-color);
