@@ -136,12 +136,17 @@ export const ChatContextProvider = ({ children }) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          timeout: 5000,
         }
       );
       setMessages(res.data);
     } catch (err) {
-      setError(err.message);
-      console.error(err);
+      if (err.code === "ECONNABORTED") {
+        setError("Request timed out. Please try again later.");
+      } else {
+        setError(err.message);
+      }
+      console.error("Error:", err);
     }
   };
 
