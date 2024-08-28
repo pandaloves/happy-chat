@@ -6,7 +6,7 @@ const InitContainer = () => {
   const [id, username, email, avatar, invite] = authUser;
 
   return (
-    <div className="init-container flex justify-center items-center bg-white">
+    <div className="init-container flex justify-center items-center shadow-xl shadow-slate-500 rounded-b-md">
       <div className="flex flex-col justify-center items-center gap-2">
         <i className="fa-solid fa-comments text-3xl"></i>
 

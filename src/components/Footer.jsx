@@ -3,7 +3,7 @@ import InputEmoji from "react-input-emoji";
 const Footer = ({ text, setText, cleanData, handleKeyDown, handleSubmit }) => {
   return (
     <form
-      className="h-28 flex items-center p-2 bg-white border border-t-2"
+      className="h-28 flex items-center p-2 bg-white border border-t-2 rounded-b-md"
       onSubmit={handleSubmit}
     >
       <InputEmoji

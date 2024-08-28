@@ -47,7 +47,7 @@ const ChatContainer = ({ chat }) => {
   };
 
   return (
-    <div className="message bg-white">
+    <div className="messages shadow-xl shadow-slate-500 overflow-y-scroll">
       <div className="flex flex-col flex-1 p-4">
         <div
           ref={scrollContainerRef}
