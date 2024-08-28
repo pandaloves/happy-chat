@@ -47,10 +47,10 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
     <>
       <div
         ref={sideNavRef}
-        className={`flex flex-col text-base border-inherit bg-base-100 shadow-xl shadow-slate-500 fixed left-0 top-5 mt-1 h-full px-6 py-2 z-20 transition-transform ${
+        className={`sidenav flex flex-col text-base border-inherit bg-base-100 shadow-xl shadow-slate-500 fixed top-11 px-6 py-2 rounded-md z-20 transition-transform ${
           isSideNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ width: "442px" }}
+        style={{ width: "318px", marginTop: "-20px" }}
       >
         <div className="h-20 w-full flex items-center pt-4">
           <form
@@ -70,7 +70,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
         </div>
         <div className="divider"></div>
 
-        <div className="overflow-y-auto flex-grow">
+        <div className="overflow-y-scroll">
           {users.map((user) => (
             <ContactList
               key={user.userId}

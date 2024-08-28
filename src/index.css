@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  font-size: 14px;
+  background: var(--bg-color) var(--background-image);
+  color: var(--text-color);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 :root {
   --bg-color: #ffffff;
   --text-color: #000000;
@@ -18,54 +35,22 @@
   --background-image: url("/src/assets/img/backgroundImage.jpg");
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Scrollbar Styles */
-* {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-*::-webkit-scrollbar {
-  height: 0.5rem;
-  width: 0rem;
-}
-
-*::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-
-html {
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-body {
-  min-height: 100vh;
-  font-size: 14px;
-  background: var(--bg-color) var(--background-image);
-  color: var(--text-color);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
 .navbar {
   background-color: var(--navbar-bg);
 }
 
-.messages,
 .init-container {
-  height: 800px;
+  height: 600px;
+  background-color: var(--container-bg);
+}
+
+.messages {
+  height: 488px;
+  background-color: var(--container-bg);
+}
+
+.sidenav {
+  height: 712px;
 }
 
 @media (max-width: 820px) {
@@ -77,11 +62,12 @@ body {
 @media (max-width: 580px) {
   .chat {
     width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    right: 0;
     transition: all 0.3s;
     transform: translateX(100%);
+  }
+
+  .messages,
+  .init-container {
+    height: 100%;
   }
 }
