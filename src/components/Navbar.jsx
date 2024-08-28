@@ -10,7 +10,7 @@ const Navbar = ({ toggleSideNav }) => {
   const { users, setUsers, fetchUsers } = useContext(ChatContext);
   const { isAuthenticated, authUser, handleDeleteAccount, handleLogout } =
     useContext(UserContext);
- 
+
   const [id, username, email, avatar, invite] = authUser;
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const Navbar = ({ toggleSideNav }) => {
   };
 
   return (
-    <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between border-b-2 border-y-neutral-200 shadow-md shadow-neutral-500 px-6 z-20">
+    <div className="navbar shrink-0 items-center max-w-4xl mx-auto mt-5 h-28 flex flex-row justify-between border-b-2 border-y-neutral-200 shadow-md shadow-neutral-500 px-6">
       <div className="flex-none relative">
         <div className="dropdown dropdown-end">
           <div
