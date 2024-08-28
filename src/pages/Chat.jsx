@@ -38,7 +38,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="chat card flex flex-col items-center min-h-screen border-inherit shadow-xl shadow-slate-500">
+      <div className="chat card flex flex-col items-center min-h-screen">
         <Navbar toggleSideNav={toggleSideNav} />
         <div className="w-full max-w-4xl flex-1 relative flex flex-col">
           {isSideNavOpen && (
