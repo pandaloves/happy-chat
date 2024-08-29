@@ -3,11 +3,12 @@ import { UserContext } from "../context/UserContext";
 import { ChatContext } from "../context/ChatContext";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "timeago.js";
-
 import { ImSpinner6 } from "react-icons/im";
 
 const ChatContainer = ({ chat }) => {
   const [deletingMessageId, setDeletingMessageId] = useState(null);
+  const scrollRef = useRef();
+
   const { authUser } = useContext(UserContext);
   const [id, username, email, avatar, invite] = authUser;
 
@@ -20,39 +21,40 @@ const ChatContainer = ({ chat }) => {
     deleteMessage,
   } = useContext(ChatContext);
 
-  const scrollContainerRef = useRef(null);
-
-  const scrollToBottom = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
-    }
-  };
-
   useEffect(() => {
     if (conversationId) {
       fetchMessages(conversationId);
     }
   }, [conversationId, fetchMessages]);
 
+  const handleDelete = async (messageId) => {
+    setDeletingMessageId(messageId);
+    try {
+      await deleteMessage(messageId);
+    } catch (error) {
+      console.error("Failed to delete message:", error);
+    } finally {
+      setDeletingMessageId(null);
+    }
+  };
+
+  // Scroll to the latest message automatically
   useEffect(() => {
-    scrollToBottom();
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
     <div className="messages shadow-xl shadow-slate-500 overflow-y-scroll">
       <div className="flex flex-col flex-1 p-4">
-        <div
-          ref={scrollContainerRef}
-          className="flex flex-col flex-1 gap-2 p-2"
-        >
+        <div className="flex flex-col flex-1 gap-2 p-2">
           {messages &&
-            messages.map((message) => (
+            messages.map((message, index) => (
               <div
                 key={uuidv4()}
                 className={`chat ${
                   message.userId === id ? "chat-end" : "chat-start"
                 }`}
+                ref={index === messages.length - 1 ? scrollRef : null}
               >
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">

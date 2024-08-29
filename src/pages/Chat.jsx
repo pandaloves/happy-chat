@@ -38,7 +38,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="chat flex flex-col items-center min-h-screen">
+      <div className="chat flex flex-col justify-conent items-center min-h-screen">
         <div className="w-full max-w-4xl flex-1 relative flex flex-col">
           {isSideNavOpen && (
             <SideNav
