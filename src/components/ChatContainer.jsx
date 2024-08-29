@@ -69,7 +69,7 @@ const ChatContainer = ({ chat }) => {
                   </div>
                 </div>
                 <div className="chat-header">
-                  {message.userId === id ? username : invitedName}
+                  {message.userId === id ? "You" : invitedName}
                   <time className="text-sm ml-2">
                     {format(message.createdAt)}
                   </time>
