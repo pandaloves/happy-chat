@@ -22,6 +22,13 @@ const ChatContainer = ({ chat }) => {
 
   const scrollContainerRef = useRef(null);
 
+  const scrollToBottom = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop =
+        scrollContainerRef.current.scrollHeight;
+    }
+  };
+
   useEffect(() => {
     if (conversationId) {
       fetchMessages(conversationId);
@@ -29,22 +36,8 @@ const ChatContainer = ({ chat }) => {
   }, [conversationId, fetchMessages]);
 
   useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
-    }
+    scrollToBottom();
   }, [messages]);
-
-  const handleDelete = async (messageId) => {
-    setDeletingMessageId(messageId);
-    try {
-      await deleteMessage(messageId);
-    } catch (error) {
-      console.error("Failed to delete message:", error);
-    } finally {
-      setDeletingMessageId(null);
-    }
-  };
 
   return (
     <div className="messages shadow-xl shadow-slate-500 overflow-y-scroll">
