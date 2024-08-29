@@ -9,6 +9,11 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body {
   min-height: 100vh;
   font-size: 14px;
@@ -50,24 +55,22 @@ body {
 }
 
 .sidenav {
-  height: 712px;
+  height: 500px;
 }
 
-@media (max-width: 820px) {
-  .chat {
-    width: calc(100% - 300px);
-  }
-}
-
-@media (max-width: 580px) {
-  .chat {
-    width: 100%;
-    transition: all 0.3s;
-    transform: translateX(100%);
+@media screen and (max-width: 768px) {
+  .chat-card {
+    margin-top: -4px;
+    padding-top: 0;
   }
 
-  .messages,
-  .init-container {
-    height: 100%;
+  .init-container,
+  .messages {
+    height: 100vh;
+  }
+
+  .sidenav {
+    top: 20;
+    height: 600px;
   }
 }
