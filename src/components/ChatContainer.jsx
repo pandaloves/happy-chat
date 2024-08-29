@@ -7,6 +7,7 @@ import { ImSpinner6 } from "react-icons/im";
 
 const ChatContainer = ({ chat }) => {
   const [deletingMessageId, setDeletingMessageId] = useState(null);
+  const [prevMessagesLength, setPrevMessagesLength] = useState(0);
   const scrollRef = useRef();
 
   const { authUser } = useContext(UserContext);
@@ -38,10 +39,13 @@ const ChatContainer = ({ chat }) => {
     }
   };
 
-  // Scroll to the latest message automatically
+  // Conditionally scroll to the latest message
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (messages.length !== prevMessagesLength) {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+      setPrevMessagesLength(messages.length);
+    }
+  }, [messages, prevMessagesLength]);
 
   return (
     <div className="messages shadow-xl shadow-slate-500 overflow-y-scroll">

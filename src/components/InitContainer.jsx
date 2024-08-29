@@ -13,7 +13,6 @@ const InitContainer = () => {
         <h2 className="text-xl font-bold">
           Welcome, <span className="font-bold text-secondary">{username}</span>!
         </h2>
-        <p className="text-lg">Select a user to start a conversation.</p>
       </div>
     </div>
   );
