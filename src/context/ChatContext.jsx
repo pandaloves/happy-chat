@@ -13,6 +13,7 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [invitedName, setInvitedName] = useState("");
   const [invitedAvatar, setInvitedAvatar] = useState("");
+
   const { authUser, setError } = useContext(UserContext);
   const [id, username, email, avatar, invite] = authUser;
 
@@ -71,26 +72,47 @@ export const ChatContextProvider = ({ children }) => {
         setInvitedAvatar(userDetails.avatar);
       }
 
-      const inviteArray = JSON.parse(userDetails.invite);
+      let newConversationId = uuidv4();
+
+      const inviteArray = JSON.parse(userDetails.invite || "[]");
       const invitedData = inviteArray.find(
         (inviteItem) => inviteItem.username === username
       );
 
-      const idToUse = invitedData ? invitedData.conversationId : uuidv4();
-      console.info("conversationId:", idToUse);
+      let parsedInvite = [];
+      if (invite) {
+        try {
+          parsedInvite = JSON.parse(invite);
+        } catch (error) {
+          console.error("Failed to parse invite:", error);
+          setError("Failed to parse invite data");
+          return;
+        }
+      }
 
-      setConversationId(idToUse);
-
-      const inviteExists = inviteArray.find(
-        (inviteItem) => inviteItem.conversationId === idToUse
+      const authInvitedData = parsedInvite.find(
+        (inviteItem) => inviteItem.username === userDetails.username
       );
 
-      if (inviteExists) {
-        return;
-      } else {
+      if (authInvitedData) {
+        newConversationId = authInvitedData.conversationId;
+      } else if (invitedData) {
+        newConversationId = invitedData.conversationId;
+      }
+
+      setConversationId(newConversationId);
+
+      const inviteExists = inviteArray.find(
+        (inviteItem) => inviteItem.conversationId === newConversationId
+      );
+      const authInviteExists = parsedInvite.find(
+        (inviteItem) => inviteItem.conversationId === newConversationId
+      );
+
+      if (!inviteExists && !authInviteExists) {
         await axios.post(
           `/invite/${userId}`,
-          { conversationId: idToUse },
+          { conversationId: newConversationId },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -120,6 +142,7 @@ export const ChatContextProvider = ({ children }) => {
       );
 
       const newMsg = res.data.latestMessage;
+      console.log(newMsg);
 
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     } catch (err) {

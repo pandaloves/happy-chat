@@ -1,9 +1,16 @@
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { ChatContext } from "../context/ChatContext";
 import SpecificUser from "./SpecificUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../context/UserContext";
 
 const ContactList = ({ user, setChat, matchedUser }) => {
+  const [isAuthFriend, setIsAuthFriend] = useState(false);
   const { inviteUser } = useContext(ChatContext);
+  const { authUser, setError } = useContext(UserContext);
+  const [id, username, email, avatar, invite] = authUser;
+
   const itemRef = useRef(null);
 
   // Scroll to the matched user if needed
@@ -12,6 +19,32 @@ const ContactList = ({ user, setChat, matchedUser }) => {
       itemRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [matchedUser, user.userId]);
+
+  useEffect(() => {
+    let parsedInvite = [];
+    if (invite) {
+      try {
+        parsedInvite = JSON.parse(invite);
+      } catch (error) {
+        console.error("Failed to parse invite:", error);
+        setError("Failed to parse invite data");
+        return;
+      }
+    }
+
+    const authInvitedData = parsedInvite.find(
+      (inviteItem) => inviteItem.username === user.username
+    );
+
+    const inviteArray = JSON.parse(user.invite || "[]");
+    const invitedData = inviteArray.find(
+      (inviteItem) => inviteItem.username === username
+    );
+
+    if (authInvitedData || invitedData) {
+      setIsAuthFriend(true);
+    }
+  }, [authUser]);
 
   return (
     <>
@@ -24,9 +57,18 @@ const ContactList = ({ user, setChat, matchedUser }) => {
         }}
       >
         <SpecificUser src={user.avatar} username={user.username} />
-        <p className="text-sm text-secondary italic">
-          Say hi to {user.username}!
-        </p>
+
+        <div className="flex flex-col items-center gap-1">
+          {isAuthFriend && (
+            <div className="flex flex-row items-center gap-1">
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={{ color: "#f162e7", width: "20px", height: "30px" }}
+              />
+              <p className="text-xs font-semibold italic">Friend</p>
+            </div>
+          )}
+        </div>
       </div>
       <div className="divider"></div>
     </>
