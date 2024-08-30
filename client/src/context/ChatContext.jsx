@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "../utils/AxiosConfig";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "./UserContext";

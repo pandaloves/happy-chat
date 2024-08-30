@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../context/UserContext";
+import NoAvatar from "../assets/img/NoAvatar.png";
 import { ChatContext } from "../context/ChatContext";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "timeago.js";
@@ -21,6 +22,11 @@ const ChatContainer = ({ chat }) => {
     fetchMessages,
     deleteMessage,
   } = useContext(ChatContext);
+
+  const [imgSrc, setImgSrc] = useState(invitedAvatar || NoAvatar);
+  const handleImageError = () => {
+    setImgSrc(NoAvatar);
+  };
 
   useEffect(() => {
     if (conversationId) {
@@ -64,7 +70,8 @@ const ChatContainer = ({ chat }) => {
                   <div className="w-10 rounded-full">
                     <img
                       alt="avatar"
-                      src={message.userId === id ? avatar : invitedAvatar}
+                      src={message.userId === id ? avatar : imgSrc}
+                      onError={handleImageError}
                     />
                   </div>
                 </div>
