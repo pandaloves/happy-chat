@@ -40,12 +40,13 @@ body {
   --background-image: url("/src/assets/img/backgroundImage.jpg");
 }
 
-.navbar {
+.navbar,
+.sender {
   background-color: var(--navbar-bg);
 }
 
 .init-container {
-  height: 600px;
+  height: 606px;
   background-color: var(--container-bg);
 }
 
