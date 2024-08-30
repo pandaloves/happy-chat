@@ -8,7 +8,7 @@ const Footer = ({ text, setText, cleanData, handleKeyDown, handleSubmit }) => {
     >
       <InputEmoji
         className="textarea flex-1"
-        placeholder="Type a message"
+        placeholder="Write message"
         cleanOnEnter
         value={cleanData(text)}
         onChange={setText}
