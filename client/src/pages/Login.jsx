@@ -37,12 +37,12 @@ const Login = () => {
 
   return (
     <>
-      <div className="hero-content flex-col items-center mx-auto min-h-screen">
+      <div className="hero-content flex-col items-center mx-auto">
         <div className="card bg-base-100 w-full max-w-xl shrink-0 shadow-2xl py-6">
           <div className="text-center">
-            <h1 className="text-2xl font-bold">
+            <h3 className="h3 font-bold">
               Login <span className="text-indigo-500">Happy Chat</span>
-            </h1>
+            </h3>
           </div>
           {error && <div className="text-red-500 text-center">{error}</div>}
           <form className="card-body" onSubmit={handleSubmit}>
