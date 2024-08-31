@@ -49,7 +49,7 @@ const Navbar = ({ toggleSideNav }) => {
   };
 
   return (
-    <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between px-8 rounded-t-md">
+    <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between px-5 rounded-t-md gap-1">
       <div className="flex-none relative">
         <div className="dropdown dropdown-end">
           <div
@@ -57,12 +57,12 @@ const Navbar = ({ toggleSideNav }) => {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-20 rounded-full">
+            <div className="w-16 rounded-full">
               <img
                 src={avatar || NoAvatar}
                 alt="Auth user's avatar"
                 onError={(e) => {
-                  e.target.onerror = null; // prevents looping
+                  e.target.onerror = null;
                   e.target.src = NoAvatar;
                 }}
               />
@@ -96,7 +96,7 @@ const Navbar = ({ toggleSideNav }) => {
       </div>
 
       <div className="flex-1 flex justify-center">
-        <span className="text-xl font-bold">Happy Chat</span>
+        <span className="text-base font-bold">Happy Chat</span>
       </div>
 
       <div className="flex items-center space-x-4">
@@ -109,7 +109,7 @@ const Navbar = ({ toggleSideNav }) => {
             onChange={toggleTheme}
           />
           <svg
-            className="swap-off h-10 w-10 fill-current"
+            className="swap-off h-8 w-8 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -117,7 +117,7 @@ const Navbar = ({ toggleSideNav }) => {
           </svg>
 
           <svg
-            className="swap-on h-10 w-10 fill-current"
+            className="swap-on h-6 w-6 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -136,7 +136,7 @@ const Navbar = ({ toggleSideNav }) => {
             >
               {users.slice(0, 2).map((user, index) => (
                 <div key={index} className="avatar">
-                  <div className="w-10">
+                  <div className="w-8">
                     <img
                       src={user.avatar || NoAvatar}
                       alt={`User avatar ${index}`}
