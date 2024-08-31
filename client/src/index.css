@@ -57,21 +57,20 @@ body {
 
 .sidenav {
   height: 500px;
+  width: 318px;
 }
 
 @media screen and (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
   .chat-card {
     margin-top: -4px;
     padding-top: 0;
   }
 
-  .init-container,
-  .messages {
-    height: 100vh;
-  }
-
   .sidenav {
     top: 20;
-    height: 600px;
+    width: 280px;
   }
 }

@@ -50,7 +50,6 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
         className={`sidenav flex flex-col text-base border-inherit bg-base-100 shadow-xl shadow-slate-500 absolute top-28 px-6 py-2 rounded-md z-20 transition-transform ${
           isSideNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ width: "318px" }}
       >
         <div className="h-20 w-full flex items-center pt-4">
           <form
