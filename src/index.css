@@ -51,13 +51,13 @@ body {
 }
 
 .messages {
-  height: 400px;
+  height: 480px;
   background-color: var(--container-bg);
 }
 
 .sidenav {
-  height: 350px;
-  width: 318px;
+  height: 400px;
+  width: 320px;
 }
 
 @media screen and (max-width: 768px) {
@@ -68,9 +68,12 @@ body {
     margin-top: -4px;
     padding-top: 0;
   }
-
+  .init-container,
+  .message {
+    height: 100%;
+  }
   .sidenav {
     top: 20;
-    width: 280px;
+    height: 500px;
   }
 }
