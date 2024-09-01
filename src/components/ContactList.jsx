@@ -9,7 +9,6 @@ const ContactList = ({ user, setChat, matchedUser }) => {
   const [isAuthFriend, setIsAuthFriend] = useState(false);
   const { inviteUser } = useContext(ChatContext);
   const { authUser, setError } = useContext(UserContext);
-  const [id, username, email, avatar, invite] = authUser;
 
   const itemRef = useRef(null);
 
@@ -22,9 +21,9 @@ const ContactList = ({ user, setChat, matchedUser }) => {
 
   useEffect(() => {
     let parsedInvite = [];
-    if (invite) {
+    if (authUser.invite) {
       try {
-        parsedInvite = JSON.parse(invite);
+        parsedInvite = JSON.parse(authUser.invite);
       } catch (error) {
         console.error("Failed to parse invite:", error);
         setError("Failed to parse invite data");
@@ -38,7 +37,7 @@ const ContactList = ({ user, setChat, matchedUser }) => {
 
     const inviteArray = JSON.parse(user.invite || "[]");
     const invitedData = inviteArray.find(
-      (inviteItem) => inviteItem.username === username
+      (inviteItem) => inviteItem.username === authUser.user
     );
 
     if (authInvitedData || invitedData) {

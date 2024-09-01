@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "../utils/AxiosConfig";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "./UserContext";
@@ -15,7 +15,6 @@ export const ChatContextProvider = ({ children }) => {
   const [invitedAvatar, setInvitedAvatar] = useState("");
 
   const { authUser, setError } = useContext(UserContext);
-  const [id, username, email, avatar, invite] = authUser;
 
   const token = localStorage.getItem("token");
 
@@ -76,28 +75,31 @@ export const ChatContextProvider = ({ children }) => {
 
       const inviteArray = JSON.parse(userDetails.invite || "[]");
       const invitedData = inviteArray.find(
-        (inviteItem) => inviteItem.username === username
+        (inviteItem) => inviteItem.username === authUser.user
       );
 
+      console.log(userDetails.invite);
+
       let parsedInvite = [];
-      if (invite) {
+      if (authUser.invite) {
         try {
-          parsedInvite = JSON.parse(invite);
+          parsedInvite = JSON.parse(authUser.invite);
         } catch (error) {
           console.error("Failed to parse invite:", error);
           setError("Failed to parse invite data");
           return;
         }
       }
+      console.log(authUser.invite);
 
       const authInvitedData = parsedInvite.find(
         (inviteItem) => inviteItem.username === userDetails.username
       );
 
-      if (authInvitedData) {
-        newConversationId = authInvitedData.conversationId;
-      } else if (invitedData) {
+      if (invitedData) {
         newConversationId = invitedData.conversationId;
+      } else if (authInvitedData) {
+        newConversationId = authInvitedData.conversationId;
       }
 
       console.log("invited User:", userDetails.username);
@@ -154,24 +156,29 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const fetchMessages = async (conversationId) => {
-    try {
-      const res = await axios.get(
-        `/messages?conversationId=${conversationId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          timeout: 5000,
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const res = await axios.get(
+          `/messages?conversationId=${conversationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            timeout: 5000,
+          }
+        );
+        setMessages(res.data);
+        return;
+      } catch (err) {
+        if (err.code === "ECONNABORTED" && retries > 0) {
+          retries -= 1;
+        } else {
+          setError("Request failed. Please try again later.");
+          console.error("Error:", err);
+          return;
         }
-      );
-      setMessages(res.data);
-    } catch (err) {
-      if (err.code === "ECONNABORTED") {
-        setError("Request timed out. Please try again later.");
-      } else {
-        setError(err.message);
       }
-      console.error("Error:", err);
     }
   };
 

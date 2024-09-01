@@ -8,7 +8,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
   const [searchedUser, setSearchedUser] = useState("");
   const [matchedUser, setMatchedUser] = useState(null);
   const { users } = useContext(ChatContext);
-  const { cleanData } = useContext(UserContext);
+  const { authUser, cleanData } = useContext(UserContext);
   const sideNavRef = useRef(null);
 
   useEffect(() => {
@@ -27,7 +27,10 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchedUser) {
-      toast.error("No such user found!");
+      toast.error("No such user found! Please try again.");
+      return;
+    } else if (searchedUser === authUser.user) {
+      toast.error("You cannot search yourself as a friend! Please try again.");
       return;
     }
 
@@ -39,7 +42,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
       setSearchedUser("");
       setMatchedUser(user.userId);
     } else {
-      toast.error("No such user found!");
+      toast.error("No such user found! Please try again.");
     }
   };
 
