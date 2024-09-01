@@ -90,7 +90,7 @@ export const ChatContextProvider = ({ children }) => {
           return;
         }
       }
-      console.log(authUser.invite);
+      console.log("authUser.invite:", authUser.invite);
 
       const authInvitedData = parsedInvite.find(
         (inviteItem) => inviteItem.username === userDetails.username
@@ -156,29 +156,22 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const fetchMessages = async (conversationId) => {
-    let retries = 3;
-    while (retries > 0) {
-      try {
-        const res = await axios.get(
-          `/messages?conversationId=${conversationId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            timeout: 5000,
-          }
-        );
-        setMessages(res.data);
-        return;
-      } catch (err) {
-        if (err.code === "ECONNABORTED" && retries > 0) {
-          retries -= 1;
-        } else {
-          setError("Request failed. Please try again later.");
-          console.error("Error:", err);
-          return;
+    try {
+      const res = await axios.get(
+        `/messages?conversationId=${conversationId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          timeout: 5000,
         }
-      }
+      );
+      setMessages(res.data);
+      return;
+    } catch (err) {
+      setError("Request failed. Please try again later.");
+      console.error("Error:", err);
+      return;
     }
   };
 

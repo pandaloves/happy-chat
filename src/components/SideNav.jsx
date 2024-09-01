@@ -26,10 +26,13 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+
     if (!searchedUser) {
-      toast.error("No such user found! Please try again.");
+      toast.error("Please enter a username to search.");
       return;
-    } else if (searchedUser === authUser.user) {
+    }
+
+    if (searchedUser.toLowerCase() === authUser.user.toLowerCase()) {
       toast.error("You cannot search yourself as a friend! Please try again.");
       return;
     }

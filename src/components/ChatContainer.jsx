@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { format } from "timeago.js";
 import { ImSpinner6 } from "react-icons/im";
 
-const ChatContainer = ({ chat }) => {
+const ChatContainer = () => {
   const [deletingMessageId, setDeletingMessageId] = useState(null);
   const [prevMessagesLength, setPrevMessagesLength] = useState(0);
   const scrollRef = useRef();
