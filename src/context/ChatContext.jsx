@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "../utils/AxiosConfig";
 import { v4 as uuidv4 } from "uuid";
 import { UserContext } from "./UserContext";
@@ -96,9 +96,9 @@ export const ChatContextProvider = ({ children }) => {
         (inviteItem) => inviteItem.username === userDetails.username
       );
 
-      if (authInvitedData) {
+      if (invitedData) {
         newConversationId = invitedData.conversationId;
-      } else if (invitedData) {
+      } else if (authInvitedData) {
         newConversationId = authInvitedData.conversationId;
       }
 
@@ -156,24 +156,29 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const fetchMessages = async (conversationId) => {
-    try {
-      const res = await axios.get(
-        `/messages?conversationId=${conversationId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          timeout: 5000,
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const res = await axios.get(
+          `/messages?conversationId=${conversationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            timeout: 5000,
+          }
+        );
+        setMessages(res.data);
+        return;
+      } catch (err) {
+        if (err.code === "ECONNABORTED" && retries > 0) {
+          retries -= 1;
+        } else {
+          setError("Request failed. Please try again later.");
+          console.error("Error:", err);
+          return;
         }
-      );
-      setMessages(res.data);
-    } catch (err) {
-      if (err.code === "ECONNABORTED") {
-        setError("Request timed out. Please try again later.");
-      } else {
-        setError(err.message);
       }
-      console.error("Error:", err);
     }
   };
 

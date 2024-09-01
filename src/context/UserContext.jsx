@@ -2,7 +2,6 @@ import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "../utils/AxiosConfig";
-import { decodeToken } from "react-jwt";
 import DOMPurify from "dompurify";
 
 export const UserContext = createContext(null);
@@ -105,9 +104,7 @@ export const UserContextProvider = ({ children }) => {
       localStorage.setItem("token", token);
 
       // Decode the JWT token to access claims
-      // const decodedToken = decodeToken(token);
-
-      const decodedJwt = JSON.parse(atob(token.split(".")[1])); // här sker magin, payloaden plockas ut
+      const decodedJwt = JSON.parse(atob(token.split(".")[1]));
 
       setAuthUser(decodedJwt);
       console.log(decodedJwt);
