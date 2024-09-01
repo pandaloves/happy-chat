@@ -155,7 +155,7 @@ export const UserContextProvider = ({ children }) => {
       setTimeout(() => {
         handleLogout();
         navigate("/login");
-      }, 3000);
+      }, 1000);
     } catch (error) {
       toast.error("Failed to delete the account. Please try again later.");
     }
