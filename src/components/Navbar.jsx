@@ -11,14 +11,14 @@ const Navbar = ({ toggleSideNav }) => {
   const { isAuthenticated, authUser, handleDeleteAccount, handleLogout } =
     useContext(UserContext);
 
-  const [id, username, email, avatar, invite] = authUser;
-
   useEffect(() => {
     const loadUsers = async () => {
       if (isAuthenticated) {
         try {
           const allUsers = await fetchUsers();
-          const otherUsers = allUsers.filter((user) => user.userId !== id);
+          const otherUsers = allUsers.filter(
+            (user) => user.userId !== authUser.id
+          );
           setUsers(otherUsers);
         } catch (err) {
           console.error(err);
@@ -27,7 +27,7 @@ const Navbar = ({ toggleSideNav }) => {
     };
 
     loadUsers();
-  }, [isAuthenticated, id]);
+  }, [isAuthenticated, authUser.id]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -44,7 +44,7 @@ const Navbar = ({ toggleSideNav }) => {
         "Are you sure you want to delete your account? This cannot be undone."
       )
     ) {
-      handleDeleteAccount(id);
+      handleDeleteAccount(authUser.id);
     }
   };
 
@@ -59,7 +59,7 @@ const Navbar = ({ toggleSideNav }) => {
           >
             <div className="w-16 rounded-full">
               <img
-                src={avatar || NoAvatar}
+                src={authUser.avatar || NoAvatar}
                 alt="Auth user's avatar"
                 onError={(e) => {
                   e.target.onerror = null;

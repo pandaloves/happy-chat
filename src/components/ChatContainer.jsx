@@ -12,7 +12,6 @@ const ChatContainer = ({ chat }) => {
   const scrollRef = useRef();
 
   const { authUser } = useContext(UserContext);
-  const [id, username, email, avatar, invite] = authUser;
 
   const {
     messages,
@@ -62,7 +61,7 @@ const ChatContainer = ({ chat }) => {
               <div
                 key={uuidv4()}
                 className={`chat ${
-                  message.userId === id ? "chat-end" : "chat-start"
+                  message.userId === authUser.id ? "chat-end" : "chat-start"
                 }`}
                 ref={index === messages.length - 1 ? scrollRef : null}
               >
@@ -70,13 +69,17 @@ const ChatContainer = ({ chat }) => {
                   <div className="w-10 rounded-full">
                     <img
                       alt="avatar"
-                      src={message.userId === id ? avatar : imgSrc}
+                      src={
+                        message.userId === authUser.id
+                          ? authUser.avatar
+                          : imgSrc
+                      }
                       onError={handleImageError}
                     />
                   </div>
                 </div>
                 <div className="chat-header">
-                  {message.userId === id ? "You" : invitedName}
+                  {message.userId === authUser.id ? "You" : invitedName}
                   <time className="text-sm ml-2">
                     {format(message.createdAt)}
                   </time>
@@ -84,7 +87,7 @@ const ChatContainer = ({ chat }) => {
                 <div className="chat-bubble chat-bubble-primary mt-1 text-lg">
                   {message.text}
                 </div>
-                {message.userId === id && (
+                {message.userId === authUser.id && (
                   <span
                     className="text-lg hover:text-secondary my-2 cursor-pointer"
                     onClick={() => handleDelete(message.id)}

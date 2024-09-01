@@ -15,7 +15,6 @@ export const ChatContextProvider = ({ children }) => {
   const [invitedAvatar, setInvitedAvatar] = useState("");
 
   const { authUser, setError } = useContext(UserContext);
-  const [id, username, email, avatar, invite] = authUser;
 
   const token = localStorage.getItem("token");
 
@@ -76,28 +75,31 @@ export const ChatContextProvider = ({ children }) => {
 
       const inviteArray = JSON.parse(userDetails.invite || "[]");
       const invitedData = inviteArray.find(
-        (inviteItem) => inviteItem.username === username
+        (inviteItem) => inviteItem.username === authUser.user
       );
 
+      console.log(userDetails.invite);
+
       let parsedInvite = [];
-      if (invite) {
+      if (authUser.invite) {
         try {
-          parsedInvite = JSON.parse(invite);
+          parsedInvite = JSON.parse(authUser.invite);
         } catch (error) {
           console.error("Failed to parse invite:", error);
           setError("Failed to parse invite data");
           return;
         }
       }
+      console.log(authUser.invite);
 
       const authInvitedData = parsedInvite.find(
         (inviteItem) => inviteItem.username === userDetails.username
       );
 
       if (authInvitedData) {
-        newConversationId = authInvitedData.conversationId;
-      } else if (invitedData) {
         newConversationId = invitedData.conversationId;
+      } else if (invitedData) {
+        newConversationId = authInvitedData.conversationId;
       }
 
       console.log("invited User:", userDetails.username);

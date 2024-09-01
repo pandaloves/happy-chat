@@ -5,14 +5,12 @@ import Navbar from "../components/Navbar";
 import { ToastContainer } from "react-toastify";
 import Footer from "../components/Footer";
 import InitContainer from "../components/InitContainer";
-import { UserContext } from "../context/UserContext";
 import { ChatContext } from "../context/ChatContext";
 
 const Chat = () => {
   const [chat, setChat] = useState(false);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [text, setText] = useState("");
-  const { cleanData } = useContext(UserContext);
   const { createMessage, conversationId } = useContext(ChatContext);
 
   const toggleSideNav = () => {
@@ -58,9 +56,6 @@ const Chat = () => {
                 <Footer
                   text={text}
                   setText={setText}
-                  cleanData={cleanData}
-                  createMessage={createMessage}
-                  conversationId={conversationId}
                   handleKeyDown={handleKeyDown}
                   handleSubmit={handleSubmit}
                 />

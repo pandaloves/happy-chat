@@ -6,28 +6,26 @@ import { ToastContainer, toast } from "react-toastify";
 const Profile = ({ open, setOpen }) => {
   const [onEdit, setOnEdit] = useState(false);
   const { authUser, setAuthUser, cleanData } = useContext(UserContext);
-  const [id, username, email, avatar, invite] = authUser;
-
   const { updateUser } = useContext(ChatContext);
 
-  const [updatedUsername, setUpdatedUsername] = useState(username);
-  const [updatedEmail, setUpdatedEmail] = useState(email);
-  const [authAvatar, setAuthAvatar] = useState(avatar);
+  const [updatedUsername, setUpdatedUsername] = useState(authUser.user);
+  const [updatedEmail, setUpdatedEmail] = useState(authUser.email);
+  const [authAvatar, setAuthAvatar] = useState(authUser.avatar);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
-      updatedUsername === username &&
-      updatedEmail === email &&
-      authAvatar === avatar
+      updatedUsername === authUser.user &&
+      updatedEmail === authUser.email &&
+      authAvatar === authUser.avatar
     ) {
       toast.info("No changes have been made.");
       return;
     }
 
     const updatedInformation = {
-      userId: id,
+      userId: authUser.id,
       updatedData: {
         username: updatedUsername,
         email: updatedEmail,
@@ -37,7 +35,14 @@ const Profile = ({ open, setOpen }) => {
 
     updateUser(updatedInformation);
 
-    const detail = [id, updatedUsername, updatedEmail, authAvatar, invite];
+    const detail = {
+      id: authUser.id,
+      user: updatedUsername,
+      email: updatedEmail,
+      avatar: authAvatar,
+      invite: authUser.invite,
+    };
+
     localStorage.setItem("authUser", JSON.stringify(detail));
     setAuthUser(detail);
     console.log(detail);
@@ -89,7 +94,7 @@ const Profile = ({ open, setOpen }) => {
                   <div className="form-control">
                     <input
                       type="text"
-                      placeholder={username}
+                      placeholder={authUser.user}
                       className="input input-bordered w-full"
                       required
                       onChange={(e) => setUpdatedUsername(e.target.value)}
@@ -100,7 +105,7 @@ const Profile = ({ open, setOpen }) => {
                   <div className="form-control">
                     <input
                       type="email"
-                      placeholder={email}
+                      placeholder={authUser.email}
                       className="input input-bordered w-full"
                       required
                       onChange={(e) => setUpdatedEmail(e.target.value)}
@@ -126,12 +131,12 @@ const Profile = ({ open, setOpen }) => {
               ) : (
                 <div className="flex flex-col justify-center gap-3">
                   <img
-                    src={avatar}
+                    src={authUser.avatar}
                     className="w-36 h-36 rounded-full"
                     alt="User Avatar"
                   />
-                  <span className="username">{username}</span>
-                  <span className="email">{email}</span>
+                  <span className="username">{authUser.user}</span>
+                  <span className="email">{authUser.email}</span>
 
                   <button
                     className="transition ease-in-out delay-150 hover:-translate-v-1 hover:scale-110 text-indigo-500 hover:text-indigo-700 duration-300"

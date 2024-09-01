@@ -105,13 +105,14 @@ export const UserContextProvider = ({ children }) => {
       localStorage.setItem("token", token);
 
       // Decode the JWT token to access claims
-      const decodedToken = decodeToken(token);
+      // const decodedToken = decodeToken(token);
 
-      const { id, user, email, avatar, invite } = decodedToken;
-      const userDetail = [id, user, email, avatar, invite];
+      const decodedJwt = JSON.parse(atob(token.split(".")[1])); // här sker magin, payloaden plockas ut
 
-      setAuthUser(userDetail);
-      localStorage.setItem("authUser", JSON.stringify(userDetail));
+      setAuthUser(decodedJwt);
+      console.log(decodedJwt);
+
+      localStorage.setItem("authUser", JSON.stringify(decodedJwt));
 
       toast.success("Logged in successfully!");
       setTimeout(() => {

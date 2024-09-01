@@ -21,7 +21,6 @@ const Login = () => {
     handleLogin,
     cleanData,
   } = useContext(UserContext);
-  const [id, user, email, avatar, invite] = authUser;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +31,9 @@ const Login = () => {
       timeZone: "Europe/Berlin",
     });
 
-    console.info(`[${europeanTime} user ${id} visited the ${pageName} page]`);
+    console.info(
+      `[${europeanTime} user ${authUser.id} visited the ${pageName} page]`
+    );
   };
 
   return (

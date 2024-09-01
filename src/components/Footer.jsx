@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import InputEmoji from "react-input-emoji";
+import { UserContext } from "../context/UserContext";
 
-const Footer = ({ text, setText, cleanData, handleKeyDown, handleSubmit }) => {
+const Footer = ({ text, setText, handleKeyDown, handleSubmit }) => {
+  const { cleanData } = useContext(UserContext);
+
   return (
     <form
       className="sender h-20 flex items-center border-t-1 px-3 rounded-b-md"
@@ -8,7 +12,7 @@ const Footer = ({ text, setText, cleanData, handleKeyDown, handleSubmit }) => {
     >
       <InputEmoji
         className="textarea"
-        placeholder="Type a message"
+        placeholder="Enter a message"
         cleanOnEnter
         value={cleanData(text)}
         onChange={setText}
