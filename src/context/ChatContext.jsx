@@ -77,8 +77,7 @@ export const ChatContextProvider = ({ children }) => {
       const invitedData = inviteArray.find(
         (inviteItem) => inviteItem.username === authUser.user
       );
-
-      console.log(userDetails.invite);
+      console.log(authUser.user);
 
       let parsedInvite = [];
       if (authUser.invite) {
@@ -90,16 +89,15 @@ export const ChatContextProvider = ({ children }) => {
           return;
         }
       }
-      console.log("authUser.invite:", authUser.invite);
 
       const authInvitedData = parsedInvite.find(
         (inviteItem) => inviteItem.username === userDetails.username
       );
 
-      if (invitedData) {
-        newConversationId = invitedData.conversationId;
-      } else if (authInvitedData) {
+      if (authInvitedData) {
         newConversationId = authInvitedData.conversationId;
+      } else if (invitedData) {
+        newConversationId = invitedData.conversationId;
       }
 
       console.log("invited User:", userDetails.username);
@@ -167,11 +165,13 @@ export const ChatContextProvider = ({ children }) => {
         }
       );
       setMessages(res.data);
-      return;
     } catch (err) {
-      setError("Request failed. Please try again later.");
+      if (err.code === "ECONNABORTED") {
+        setError("Request timed out. Please try again later.");
+      } else {
+        setError(err.message);
+      }
       console.error("Error:", err);
-      return;
     }
   };
 
