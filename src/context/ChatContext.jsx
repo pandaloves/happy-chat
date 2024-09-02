@@ -64,54 +64,49 @@ export const ChatContextProvider = ({ children }) => {
   const inviteUser = async (userId) => {
     try {
       const data = await fetchUser(userId);
-      const userDetails = data ? data[0] : null;
+      const invitedUser = data ? data[0] : null;
 
-      if (userDetails) {
-        setInvitedName(userDetails.username);
-        setInvitedAvatar(userDetails.avatar);
+      if (invitedUser) {
+        console.log("Invited userDetails:", invitedUser);
+        setInvitedName(invitedUser.username);
+        setInvitedAvatar(invitedUser.avatar);
       }
+      console.log("authUser.invite:", authUser.invite);
+      console.log("Invited userDetails.invite:", invitedUser.invite);
 
-      let newConversationId = uuidv4();
+      let newConversationId = null;
 
-      const inviteArray = JSON.parse(userDetails.invite || "[]");
+      const inviteArray = JSON.parse(invitedUser.invite || "[]");
       const invitedData = inviteArray.find(
         (inviteItem) => inviteItem.username === authUser.user
       );
-      console.log(authUser.user);
 
-      let parsedInvite = [];
-      if (authUser.invite) {
-        try {
-          parsedInvite = JSON.parse(authUser.invite);
-        } catch (error) {
-          console.error("Failed to parse invite:", error);
-          setError("Failed to parse invite data");
-          return;
-        }
-      }
-
-      const authInvitedData = parsedInvite.find(
-        (inviteItem) => inviteItem.username === userDetails.username
+      const authInviteArray = JSON.parse(authUser.invite || "[]");
+      const authInvitedData = authInviteArray.find(
+        (inviteItem) => inviteItem.username === invitedUser.username
       );
 
-      if (authInvitedData) {
-        newConversationId = authInvitedData.conversationId;
-      } else if (invitedData) {
+      if (invitedData) {
         newConversationId = invitedData.conversationId;
+      } else if (authInvitedData) {
+        newConversationId = authInvitedData.conversationId;
       }
 
-      console.log("invited User:", userDetails.username);
+      console.log("invited User:", invitedUser.username);
       console.log("conversationId:", newConversationId);
       setConversationId(newConversationId);
 
       const inviteExists = inviteArray.find(
         (inviteItem) => inviteItem.conversationId === newConversationId
       );
-      const authInviteExists = parsedInvite.find(
+      const authInviteExists = authInviteArray.find(
         (inviteItem) => inviteItem.conversationId === newConversationId
       );
 
       if (!inviteExists && !authInviteExists) {
+        let newConversationId = uuidv4();
+        setConversationId(newConversationId);
+
         await axios.post(
           `/invite/${userId}`,
           { conversationId: newConversationId },
