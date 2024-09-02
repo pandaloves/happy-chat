@@ -67,37 +67,29 @@ export const ChatContextProvider = ({ children }) => {
       const userDetails = data ? data[0] : null;
 
       if (userDetails) {
+        console.log("Invited userDetails:", userDetails);
         setInvitedName(userDetails.username);
         setInvitedAvatar(userDetails.avatar);
       }
+      console.log("authUser.invite:", authUser.invite);
+      console.log("Invited userDetails.invite:", userDetails.invite);
 
-      let newConversationId = uuidv4();
+      let newConversationId = null;
 
       const inviteArray = JSON.parse(userDetails.invite || "[]");
       const invitedData = inviteArray.find(
         (inviteItem) => inviteItem.username === authUser.user
       );
-      console.log(authUser.user);
 
-      let parsedInvite = [];
-      if (authUser.invite) {
-        try {
-          parsedInvite = JSON.parse(authUser.invite);
-        } catch (error) {
-          console.error("Failed to parse invite:", error);
-          setError("Failed to parse invite data");
-          return;
-        }
-      }
-
-      const authInvitedData = parsedInvite.find(
+      const authInviteArray = JSON.parse(authUser.invite || "[]");
+      const authInvitedData = authInviteArray.find(
         (inviteItem) => inviteItem.username === userDetails.username
       );
 
-      if (authInvitedData) {
-        newConversationId = authInvitedData.conversationId;
-      } else if (invitedData) {
+      if (invitedData) {
         newConversationId = invitedData.conversationId;
+      } else if (authInvitedData) {
+        newConversationId = authInvitedData.conversationId;
       }
 
       console.log("invited User:", userDetails.username);
@@ -107,11 +99,14 @@ export const ChatContextProvider = ({ children }) => {
       const inviteExists = inviteArray.find(
         (inviteItem) => inviteItem.conversationId === newConversationId
       );
-      const authInviteExists = parsedInvite.find(
+      const authInviteExists = authInviteArray.find(
         (inviteItem) => inviteItem.conversationId === newConversationId
       );
 
       if (!inviteExists && !authInviteExists) {
+        let newConversationId = uuidv4();
+        setConversationId(newConversationId);
+
         await axios.post(
           `/invite/${userId}`,
           { conversationId: newConversationId },
