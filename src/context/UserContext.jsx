@@ -110,9 +110,7 @@ export const UserContextProvider = ({ children }) => {
 
       // Decode the JWT token to access claims
       const decodedJwt = JSON.parse(atob(token.split(".")[1]));
-
       setAuthUser(decodedJwt);
-      console.log(decodedJwt);
 
       localStorage.setItem("authUser", JSON.stringify(decodedJwt));
 
