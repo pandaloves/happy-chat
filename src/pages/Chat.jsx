@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import SideNav from "../components/SideNav";
 import ChatContainer from "../components/ChatContainer";
 import Navbar from "../components/Navbar";
@@ -6,11 +6,13 @@ import { ToastContainer } from "react-toastify";
 import Footer from "../components/Footer";
 import InitContainer from "../components/InitContainer";
 import { ChatContext } from "../context/ChatContext";
+import { UserContext } from "../context/UserContext";
 
 const Chat = () => {
   const [chat, setChat] = useState(false);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [text, setText] = useState("");
+  const { authUser } = useContext(UserContext);
   const { createMessage, conversationId } = useContext(ChatContext);
 
   // Toggle the visibility of sideNav
@@ -36,6 +38,20 @@ const Chat = () => {
       await handleSubmit(e);
     }
   };
+
+  useEffect(() => {
+    const pageName = "Chat";
+
+    // Get the current time in European format
+    const europeanTime = new Date().toLocaleString("en-GB", {
+      timeZone: "Europe/Berlin",
+    });
+
+    // Log the user visit information to the console
+    console.info(
+      `[${europeanTime} user ${authUser.id} visited the ${pageName} page]`
+    );
+  }, [authUser]);
 
   return (
     <>
