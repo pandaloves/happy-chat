@@ -73,7 +73,7 @@ export const ChatContextProvider = ({ children }) => {
       }
       console.log("authUser.invite:", authUser.invite);
       console.log("Invited userDetails.invite:", invitedUser.invite);
-
+      
       let newConversationId = null;
 
       const inviteArray = JSON.parse(invitedUser.invite || "[]");
