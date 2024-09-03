@@ -11,7 +11,7 @@ const Navbar = ({ toggleSideNav }) => {
   const { isAuthenticated, authUser, handleDeleteAccount, handleLogout } =
     useContext(UserContext);
 
-  // Fetches users
+  // Fetch users
   useEffect(() => {
     const loadUsers = async () => {
       if (isAuthenticated) {
@@ -35,7 +35,7 @@ const Navbar = ({ toggleSideNav }) => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Toggles the theme between "light" and "dark"
+  // Toggle the theme between "light" and "dark"
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
@@ -121,7 +121,7 @@ const Navbar = ({ toggleSideNav }) => {
           </svg>
 
           <svg
-            className="swap-on h-6 w-6 fill-current"
+            className="swap-on h-8 w-8 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
