@@ -51,7 +51,7 @@ const ChatContainer = () => {
   return (
     <div className="messages shadow-xl shadow-slate-500 py-1 overflow-y-scroll">
       <div className="flex flex-col flex-1 p-4">
-        <div className="flex flex-col flex-1 gap-2 p-2">
+        <div className="flex flex-col flex-1 gap-1 p-2">
           {messages &&
             messages.map((message, index) => (
               <div
