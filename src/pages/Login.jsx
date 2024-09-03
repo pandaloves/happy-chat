@@ -12,7 +12,6 @@ const Login = () => {
     setUsername,
     password,
     setPassword,
-    authUser,
     error,
     showPassword,
     toggleShowPassword,
@@ -26,18 +25,6 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleLogin();
-
-    const pageName = "Chat";
-
-    // Get the current time in European format
-    const europeanTime = new Date().toLocaleString("en-GB", {
-      timeZone: "Europe/Berlin",
-    });
-
-    // Log the user visit information to the console
-    console.info(
-      `[${europeanTime} user ${authUser.id} visited the ${pageName} page]`
-    );
   };
 
   return (
