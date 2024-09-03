@@ -78,7 +78,7 @@ const ChatContainer = () => {
                     {format(message.createdAt)}
                   </time>
                 </div>
-                <div className="chat-bubble chat-bubble-primary mt-1 text-lg">
+                <div className="chat-bubble chat-bubble-primary text-lg">
                   {message.text}
                 </div>
                 {message.userId === authUser.id && (
