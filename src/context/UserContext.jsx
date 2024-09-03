@@ -137,7 +137,7 @@ export const UserContextProvider = ({ children }) => {
     toast.success("Logged out successfully!");
 
     setTimeout(() => {
-      navigate("/");
+      navigate("/login");
     }, 2000);
   };
 
