@@ -134,7 +134,7 @@ export const UserContextProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("authUser");
 
-    toast.error("Logged out successfully!");
+    toast.success("Logged out successfully!");
 
     setTimeout(() => {
       navigate("/");
