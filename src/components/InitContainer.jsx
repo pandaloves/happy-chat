@@ -10,7 +10,10 @@ const InitContainer = () => {
         <i className="fa-solid fa-comments text-lg"></i>
         <h2 className="h2 font-bold">
           Welcome,{" "}
-          <span className="font-bold text-secondary">{authUser.user}</span>!
+          <span className="text-lg font-bold text-secondary">
+            {authUser.user}
+          </span>
+          !
         </h2>
       </div>
     </div>
