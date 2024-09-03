@@ -32,6 +32,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Set a default avatar if not provided
   useEffect(() => {
     if (!avatar) {
       const defaultAvatar = `https://i.pravatar.cc/150?img=${

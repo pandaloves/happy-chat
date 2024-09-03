@@ -18,6 +18,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const token = localStorage.getItem("token");
 
+  // Fetch the list of users
   const fetchUsers = async () => {
     try {
       const res = await axios.get(`/users`, {
@@ -32,6 +33,7 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // Fetch a specific user by userId
   const fetchUser = async (userId) => {
     try {
       const res = await axios.get(`/users/${userId}`, {
@@ -46,6 +48,7 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // Update profile
   const updateUser = async (updatedInfo) => {
     try {
       await axios.put(`/user`, updatedInfo, {
@@ -61,9 +64,10 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // Invite a user to a conversation and decide if a new conversationId is needed
   const inviteUser = async (userId) => {
     try {
-      // Fetch user details
+      // Fetch the invited user's details
       const data = await fetchUser(userId);
       const invitedUser = data ? data[0] : null;
 
@@ -78,6 +82,7 @@ export const ChatContextProvider = ({ children }) => {
       
       let newConversationId = null;
 
+      // Check existing invitations for conversation ID
       if (invitedUser) {
         const inviteArray = JSON.parse(invitedUser.invite || "[]");
         const authInviteArray = JSON.parse(authUser.invite || "[]");
@@ -99,9 +104,11 @@ export const ChatContextProvider = ({ children }) => {
           console.log("Existing conversation found:", newConversationId);
           setConversationId(newConversationId);
         } else {
+          // Generate a new ConversationId if there is no existing conversationId
           newConversationId = uuidv4();
           setConversationId(newConversationId);
 
+          // Create a new conversation and invite the user
           await axios.post(
             `/invite/${userId}`,
             { conversationId: newConversationId },
@@ -121,6 +128,7 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // Create a new message in the conversation
   const createMessage = async (text) => {
     try {
       const res = await axios.post(
@@ -146,6 +154,7 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // Fetch all the messages for a specific conversation
   const fetchMessages = async (conversationId) => {
     try {
       const res = await axios.get(
@@ -168,6 +177,7 @@ export const ChatContextProvider = ({ children }) => {
     }
   };
 
+  // Delete a specific message by its ID
   const deleteMessage = async (id) => {
     try {
       await axios.delete(`/messages/${id}`, {

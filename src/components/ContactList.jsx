@@ -19,6 +19,7 @@ const ContactList = ({ user, setChat, matchedUser }) => {
     }
   }, [matchedUser, user.userId]);
 
+  //check if the user is the authenticated user's friend
   useEffect(() => {
     const authInviteArray = JSON.parse(authUser.invite || "[]");
     const authInvitedData = authInviteArray.find(
@@ -42,6 +43,7 @@ const ContactList = ({ user, setChat, matchedUser }) => {
       >
         <SpecificUser src={user.avatar} username={user.username} />
 
+        {/* Display a heart icon and "Friend" label*/}
         <div className="flex flex-col items-center gap-1">
           {isAuthFriend && (
             <div className="flex flex-row items-center gap-1">

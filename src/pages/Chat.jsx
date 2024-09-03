@@ -13,10 +13,12 @@ const Chat = () => {
   const [text, setText] = useState("");
   const { createMessage, conversationId } = useContext(ChatContext);
 
+  // Toggle the visibility of sideNav
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
 
+  // Create a message
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,6 +29,7 @@ const Chat = () => {
     setText("");
   };
 
+  // Handle keydown events in the text input
   const handleKeyDown = async (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -39,6 +42,7 @@ const Chat = () => {
       <div className="chat flex flex-col justify-content items-center min-h-screen">
         <div className="chat-card w-full max-w-4xl md:w-3/4 lg-1/2 xl-1/3 flex-1 relative flex flex-col mt-3">
           {isSideNavOpen && (
+            // Conditionally render SideNav component if isSideNavOpen is true
             <SideNav
               setChat={setChat}
               isSideNavOpen={isSideNavOpen}
@@ -48,10 +52,9 @@ const Chat = () => {
           <Navbar toggleSideNav={toggleSideNav} />
 
           {chat ? (
+            // Conditionally render chat-related components based on chat state
             <>
-              <>
-                <ChatContainer />
-              </>
+              <ChatContainer />
               <div>
                 <Footer
                   text={text}
