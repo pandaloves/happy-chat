@@ -65,7 +65,9 @@ const ContactList = ({ user, setChat, matchedUser }) => {
                 icon={faHeart}
                 style={{ color: "#f162e7", width: "20px", height: "20px" }}
               />
-              <p className="text-xs font-semibold italic">Friend</p>
+              <p className="text-xs font-semibold italic text-indigo-500">
+                Friend
+              </p>
             </div>
           )}
         </div>
