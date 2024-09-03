@@ -7,7 +7,7 @@ import { UserContext } from "../context/UserContext";
 
 const ContactList = ({ user, setChat, matchedUser }) => {
   const [isAuthFriend, setIsAuthFriend] = useState(false);
-  const { inviteUser } = useContext(ChatContext);
+  const { fetchUser, inviteUser } = useContext(ChatContext);
   const { authUser } = useContext(UserContext);
 
   const itemRef = useRef(null);
@@ -19,17 +19,31 @@ const ContactList = ({ user, setChat, matchedUser }) => {
     }
   }, [matchedUser, user.userId]);
 
-  //check if the user is the authenticated user's friend
+  // Check if the user is the authenticated user's friend
   useEffect(() => {
-    const authInviteArray = JSON.parse(authUser.invite || "[]");
-    const authInvitedData = authInviteArray.find(
-      (inviteItem) => inviteItem.username === user.username
-    );
+    const checkFriendStatus = async () => {
+      const data = await fetchUser(user.userId);
+      const invitedUser = data ? data[0] : null;
 
-    if (authInvitedData) {
-      setIsAuthFriend(true);
-    }
-  }, [authUser]);
+      if (invitedUser) {
+        const inviteArray = JSON.parse(invitedUser.invite || "[]");
+        const authInviteArray = JSON.parse(authUser.invite || "[]");
+
+        const invitedData = inviteArray.find(
+          (inviteItem) => inviteItem.username === authUser.user
+        );
+        const authInvitedData = authInviteArray.find(
+          (inviteItem) => inviteItem.username === user.username
+        );
+
+        if (invitedData || authInvitedData) {
+          setIsAuthFriend(true);
+        }
+      }
+    };
+
+    checkFriendStatus();
+  }, [authUser, user.userId, user.username]);
 
   return (
     <>
@@ -43,13 +57,13 @@ const ContactList = ({ user, setChat, matchedUser }) => {
       >
         <SpecificUser src={user.avatar} username={user.username} />
 
-        {/* Display a heart icon and "Friend" label*/}
+        {/* Display a heart icon and "Friend" label if applicable */}
         <div className="flex flex-col items-center gap-1">
           {isAuthFriend && (
             <div className="flex flex-row items-center gap-1">
               <FontAwesomeIcon
                 icon={faHeart}
-                style={{ color: "#f162e7", width: "20px", height: "30px" }}
+                style={{ color: "#f162e7", width: "20px", height: "20px" }}
               />
               <p className="text-xs font-semibold italic">Friend</p>
             </div>
