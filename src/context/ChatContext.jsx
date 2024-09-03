@@ -72,7 +72,6 @@ export const ChatContextProvider = ({ children }) => {
       const invitedUser = data ? data[0] : null;
 
       if (invitedUser) {
-        console.log("Invited userDetails:", invitedUser);
         setInvitedName(invitedUser.username);
         setInvitedAvatar(invitedUser.avatar);
       }
