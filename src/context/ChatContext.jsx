@@ -97,7 +97,7 @@ export const ChatContextProvider = ({ children }) => {
         }
 
         if (newConversationId) {
-          console.info("Existing conversation found:", newConversationId);
+          console.info("Existing conversationId found:", newConversationId);
           setConversationId(newConversationId);
         } else {
           // Generate a new ConversationId if there is no existing conversationId
