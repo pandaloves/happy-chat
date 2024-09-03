@@ -77,9 +77,6 @@ export const ChatContextProvider = ({ children }) => {
         setInvitedAvatar(invitedUser.avatar);
       }
 
-      console.log("authUser.invite:", authUser.invite);
-      console.log("Invited userDetails.invite:", invitedUser.invite);
-      
       let newConversationId = null;
 
       // Check existing invitations for conversation ID
@@ -101,7 +98,7 @@ export const ChatContextProvider = ({ children }) => {
         }
 
         if (newConversationId) {
-          console.log("Existing conversation found:", newConversationId);
+          console.info("Existing conversation found:", newConversationId);
           setConversationId(newConversationId);
         } else {
           // Generate a new ConversationId if there is no existing conversationId
@@ -119,7 +116,7 @@ export const ChatContextProvider = ({ children }) => {
             }
           );
 
-          console.log("Newly created conversationId:", newConversationId);
+          console.info("Newly created conversationId:", newConversationId);
         }
       }
     } catch (err) {
@@ -145,8 +142,6 @@ export const ChatContextProvider = ({ children }) => {
       );
 
       const newMsg = res.data.latestMessage;
-      console.log(newMsg);
-
       setMessages((prevMessages) => [...prevMessages, newMsg]);
     } catch (err) {
       setError(err.message);
