@@ -16,7 +16,7 @@ const SpecificUser = ({ src, username }) => {
         </div>
       </div>
       {username && (
-        <span className="text-xl font-bold text-indigo-500">
+        <span className="text-lg font-bold text-indigo-500">
           {username || "Unknown"}
         </span>
       )}
