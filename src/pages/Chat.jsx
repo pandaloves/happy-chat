@@ -40,7 +40,7 @@ const Chat = () => {
   return (
     <>
       <div className="chat flex flex-col justify-content items-center min-h-screen">
-        <div className="chat-card w-full max-w-4xl md:w-3/4 lg-1/2 xl-1/3 flex-1 relative flex flex-col mt-3">
+        <div className="chat-card w-full max-w-4xl md:w-1/2 lg-1/3 flex-1 relative flex flex-col mt-3">
           {isSideNavOpen && (
             // Conditionally render SideNav component if isSideNavOpen is true
             <SideNav
