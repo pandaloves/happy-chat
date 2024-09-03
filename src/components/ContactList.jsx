@@ -20,17 +20,12 @@ const ContactList = ({ user, setChat, matchedUser }) => {
   }, [matchedUser, user.userId]);
 
   useEffect(() => {
-    const inviteArray = JSON.parse(user.invite || "[]");
-    const invitedData = inviteArray.find(
-      (inviteItem) => inviteItem.username === authUser.user
-    );
-
-    const authInviteArray = JSON.parse(authUser.invite || "[]");
+    const authInviteArray = JSON.parse(authUser.invite);
     const authInvitedData = authInviteArray.find(
       (inviteItem) => inviteItem.username === user.username
     );
 
-    if (authInvitedData || invitedData) {
+    if (authInvitedData) {
       setIsAuthFriend(true);
     }
   }, [authUser]);

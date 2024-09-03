@@ -15,7 +15,11 @@ const SpecificUser = ({ src, username }) => {
           <img src={imgSrc} alt="avatar" onError={handleImageError} />
         </div>
       </div>
-      {username && <span className="text-xl">{username || "Unknown"}</span>}
+      {username && (
+        <span className="text-xl font-bold text-indigo-500">
+          {username || "Unknown"}
+        </span>
+      )}
     </div>
   );
 };

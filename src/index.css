@@ -30,6 +30,7 @@ body {
   --container-bg: #ffffff;
   --navbar-bg: #efeeee;
   --background-image: url("/src/assets/img/backgroundImage.jpg");
+  --border-color: #868383;
 }
 
 [data-theme="dark"] {
@@ -38,11 +39,20 @@ body {
   --container-bg: #333;
   --navbar-bg: #333;
   --background-image: url("/src/assets/img/backgroundImage.jpg");
+  --border-color: #ffffff;
 }
 
 .navbar,
 .sender {
   background-color: var(--navbar-bg);
+}
+
+.navbar {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sender {
+  border-top: 1px solid var(--border-color);
 }
 
 .init-container {
@@ -70,7 +80,7 @@ body {
   }
   .init-container,
   .message {
-    height: 100%;
+    min-height: 100vh;
   }
   .sidenav {
     top: 20;

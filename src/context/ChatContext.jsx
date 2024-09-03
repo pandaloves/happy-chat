@@ -64,26 +64,26 @@ export const ChatContextProvider = ({ children }) => {
   const inviteUser = async (userId) => {
     try {
       const data = await fetchUser(userId);
-      const userDetails = data ? data[0] : null;
+      const invitedUser = data ? data[0] : null;
 
-      if (userDetails) {
-        console.log("Invited userDetails:", userDetails);
-        setInvitedName(userDetails.username);
-        setInvitedAvatar(userDetails.avatar);
+      if (invitedUser) {
+        console.log("Invited userDetails:", invitedUser);
+        setInvitedName(invitedUser.username);
+        setInvitedAvatar(invitedUser.avatar);
       }
       console.log("authUser.invite:", authUser.invite);
-      console.log("Invited userDetails.invite:", userDetails.invite);
-
+      console.log("Invited userDetails.invite:", invitedUser.invite);
+      
       let newConversationId = null;
 
-      const inviteArray = JSON.parse(userDetails.invite || "[]");
+      const inviteArray = JSON.parse(invitedUser.invite || "[]");
       const invitedData = inviteArray.find(
         (inviteItem) => inviteItem.username === authUser.user
       );
 
       const authInviteArray = JSON.parse(authUser.invite || "[]");
       const authInvitedData = authInviteArray.find(
-        (inviteItem) => inviteItem.username === userDetails.username
+        (inviteItem) => inviteItem.username === invitedUser.username
       );
 
       if (invitedData) {
@@ -92,7 +92,7 @@ export const ChatContextProvider = ({ children }) => {
         newConversationId = authInvitedData.conversationId;
       }
 
-      console.log("invited User:", userDetails.username);
+      console.log("invited User:", invitedUser.username);
       console.log("conversationId:", newConversationId);
       setConversationId(newConversationId);
 
