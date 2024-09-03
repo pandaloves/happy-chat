@@ -22,15 +22,19 @@ const Login = () => {
     cleanData,
   } = useContext(UserContext);
 
+  // Handle login form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     handleLogin();
 
     const pageName = "Chat";
+
+    // Get the current time in European format
     const europeanTime = new Date().toLocaleString("en-GB", {
       timeZone: "Europe/Berlin",
     });
 
+    // Log the user visit information to the console
     console.info(
       `[${europeanTime} user ${authUser.id} visited the ${pageName} page]`
     );
@@ -101,7 +105,7 @@ const Login = () => {
               className="text-base flex items-center mt-3 mx-auto"
               onClick={() => navigate("/register")}
             >
-              Don't have an account yet?
+              Have no account yet?
               <span className="cursor-pointer text-indigo-700 hover:text-secondary ml-2">
                 Sign up
               </span>

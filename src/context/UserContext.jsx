@@ -24,14 +24,17 @@ export const UserContextProvider = ({ children }) => {
   );
   const navigate = useNavigate();
 
+  // Toggle the visibility of the password
   const toggleShowPassword = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
 
+  // Sign up a user
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    // Check if all required fields are filled
     if (!username || !email || !password || !avatar) {
       toast.warning("Please fill in all required fields.");
       return;
@@ -58,6 +61,7 @@ export const UserContextProvider = ({ children }) => {
         navigate("/");
       }, 1000);
     } catch (e) {
+      // Check if username or email already exists
       if (
         e.response &&
         (e.response.status === 400 ||
@@ -74,6 +78,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  // Log in a user
   const handleLogin = async () => {
     if (!username || !password) {
       toast.warning("Please fill in all required fields.");
@@ -122,6 +127,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  // Log out a user
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("csrfToken");
@@ -135,6 +141,7 @@ export const UserContextProvider = ({ children }) => {
     }, 2000);
   };
 
+  // Delete an account
   const handleDeleteAccount = async (userId) => {
     if (!isAuthenticated) {
       toast.error("You need to be logged in to delete your account.");
@@ -159,6 +166,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  // Sanitize input data to prevent XSS attacks
   const cleanData = (inputValue) => {
     return DOMPurify.sanitize(inputValue, { FORBID_TAGS: ["marquee"] });
   };

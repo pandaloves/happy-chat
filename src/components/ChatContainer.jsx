@@ -28,6 +28,7 @@ const ChatContainer = () => {
     }
   }, [conversationId, fetchMessages]);
 
+  // Delete a message
   const handleDelete = async (messageId) => {
     setDeletingMessageId(messageId);
     try {

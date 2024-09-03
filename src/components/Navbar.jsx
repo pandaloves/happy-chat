@@ -11,6 +11,7 @@ const Navbar = ({ toggleSideNav }) => {
   const { isAuthenticated, authUser, handleDeleteAccount, handleLogout } =
     useContext(UserContext);
 
+  // Fetches users
   useEffect(() => {
     const loadUsers = async () => {
       if (isAuthenticated) {
@@ -34,6 +35,7 @@ const Navbar = ({ toggleSideNav }) => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // Toggles the theme between "light" and "dark"
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
@@ -50,6 +52,7 @@ const Navbar = ({ toggleSideNav }) => {
 
   return (
     <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between px-5 rounded-t-md gap-1">
+      {/* User avatar and dropdown menu */}
       <div className="flex-none relative">
         <div className="dropdown dropdown-end">
           <div
@@ -68,6 +71,7 @@ const Navbar = ({ toggleSideNav }) => {
               />
             </div>
           </div>
+          {/* Dropdown menu */}
           <ul
             tabIndex={0}
             className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-5 shadow translate-x-36"
@@ -94,7 +98,7 @@ const Navbar = ({ toggleSideNav }) => {
           </ul>
         </div>
       </div>
-
+      {/* App title */}
       <div className="flex-1 flex justify-center">
         <span className="text-base font-bold">Happy Chat</span>
       </div>
@@ -124,7 +128,7 @@ const Navbar = ({ toggleSideNav }) => {
             <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
           </svg>
         </label>
-
+        {/* Indicator for multiple users */}
         {users.length > 2 && (
           <div className="indicator">
             <span className="indicator-item badge badge-primary">
@@ -134,6 +138,7 @@ const Navbar = ({ toggleSideNav }) => {
               className="avatar-group -space-x-6 rtl:space-x-reverse"
               onClick={toggleSideNav}
             >
+              {/* Displaying the avatars of two users */}
               {users.slice(0, 2).map((user, index) => (
                 <div key={index} className="avatar">
                   <div className="w-8">
@@ -151,7 +156,7 @@ const Navbar = ({ toggleSideNav }) => {
             </div>
           </div>
         )}
-
+        {/* SideNav toggle button */}
         <div className="flex-none mx-2">
           <button className="btn btn-square btn-ghost" onClick={toggleSideNav}>
             <svg
@@ -170,7 +175,7 @@ const Navbar = ({ toggleSideNav }) => {
           </button>
         </div>
       </div>
-
+      {/* Profile modal */}
       {onProfile && <Profile open={onProfile} setOpen={setOnProfile} />}
     </div>
   );

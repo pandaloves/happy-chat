@@ -11,6 +11,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
   const { authUser, cleanData } = useContext(UserContext);
   const sideNavRef = useRef(null);
 
+  // Close the sideNav when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sideNavRef.current && !sideNavRef.current.contains(event.target)) {
@@ -24,6 +25,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
     };
   }, [setIsSideNavOpen]);
 
+  // Search for a user
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -58,6 +60,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
         }`}
       >
         <div className="h-20 w-full flex items-center pt-4">
+          {/* Search user form */}
           <form
             className="rounded-lg w-full my-0 mx-2 flex items-center"
             onSubmit={handleSearch}
