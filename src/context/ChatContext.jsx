@@ -63,6 +63,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const inviteUser = async (userId) => {
     try {
+      // Fetch user details
       const data = await fetchUser(userId);
       const invitedUser = data ? data[0] : null;
 
@@ -71,51 +72,48 @@ export const ChatContextProvider = ({ children }) => {
         setInvitedName(invitedUser.username);
         setInvitedAvatar(invitedUser.avatar);
       }
+
       console.log("authUser.invite:", authUser.invite);
       console.log("Invited userDetails.invite:", invitedUser.invite);
 
       let newConversationId = null;
 
-      const inviteArray = JSON.parse(invitedUser.invite || "[]");
-      const invitedData = inviteArray.find(
-        (inviteItem) => inviteItem.username === authUser.user
-      );
+      if (invitedUser) {
+        const inviteArray = JSON.parse(invitedUser.invite || "[]");
+        const authInviteArray = JSON.parse(authUser.invite || "[]");
 
-      const authInviteArray = JSON.parse(authUser.invite || "[]");
-      const authInvitedData = authInviteArray.find(
-        (inviteItem) => inviteItem.username === invitedUser.username
-      );
-
-      if (invitedData) {
-        newConversationId = invitedData.conversationId;
-      } else if (authInvitedData) {
-        newConversationId = authInvitedData.conversationId;
-      }
-
-      console.log("invited User:", invitedUser.username);
-      console.log("conversationId:", newConversationId);
-      setConversationId(newConversationId);
-
-      const inviteExists = inviteArray.find(
-        (inviteItem) => inviteItem.conversationId === newConversationId
-      );
-      const authInviteExists = authInviteArray.find(
-        (inviteItem) => inviteItem.conversationId === newConversationId
-      );
-
-      if (!inviteExists && !authInviteExists) {
-        let newConversationId = uuidv4();
-        setConversationId(newConversationId);
-
-        await axios.post(
-          `/invite/${userId}`,
-          { conversationId: newConversationId },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const invitedData = inviteArray.find(
+          (inviteItem) => inviteItem.username === authUser.user
         );
+        const authInvitedData = authInviteArray.find(
+          (inviteItem) => inviteItem.username === invitedUser.username
+        );
+
+        if (invitedData) {
+          newConversationId = invitedData.conversationId;
+        } else if (authInvitedData) {
+          newConversationId = authInvitedData.conversationId;
+        }
+
+        if (newConversationId) {
+          console.log("Existing conversation found:", newConversationId);
+          setConversationId(newConversationId);
+        } else {
+          newConversationId = uuidv4();
+          setConversationId(newConversationId);
+
+          await axios.post(
+            `/invite/${userId}`,
+            { conversationId: newConversationId },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          console.log("Newly created conversationId:", newConversationId);
+        }
       }
     } catch (err) {
       setError(err.message);

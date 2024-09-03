@@ -20,7 +20,7 @@ const ContactList = ({ user, setChat, matchedUser }) => {
   }, [matchedUser, user.userId]);
 
   useEffect(() => {
-    const authInviteArray = JSON.parse(authUser.invite);
+    const authInviteArray = JSON.parse(authUser.invite || "[]");
     const authInvitedData = authInviteArray.find(
       (inviteItem) => inviteItem.username === user.username
     );
