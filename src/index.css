@@ -56,12 +56,12 @@ body {
 }
 
 .init-container {
-  height: 518px;
+  height: 500px;
   background-color: var(--container-bg);
 }
 
 .messages {
-  height: 480px;
+  height: 460px;
   background-color: var(--container-bg);
 }
 
