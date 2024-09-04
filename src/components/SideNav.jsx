@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
   const [searchedUser, setSearchedUser] = useState("");
-  const [matchedUser, setMatchedUser] = useState(null);
+  const [matchedUser, setMatchedUser] = useState("");
   const { users } = useContext(ChatContext);
   const { authUser, cleanData } = useContext(UserContext);
   const sideNavRef = useRef(null);

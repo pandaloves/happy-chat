@@ -56,17 +56,17 @@ body {
 }
 
 .init-container {
-  height: 450px;
+  height: 500px;
   background-color: var(--container-bg);
 }
 
 .messages {
-  height: 350px;
+  height: 450px;
   background-color: var(--container-bg);
 }
 
 .sidenav {
-  height: 330px;
+  height: 480px;
   width: 320px;
 }
 
@@ -84,6 +84,6 @@ body {
   }
   .sidenav {
     top: 20;
-    height: 350px;
+    height: 500px;
   }
 }
