@@ -42,6 +42,12 @@ body {
   --border-color: #ffffff;
 }
 
+input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
 .navbar,
 .sender {
   background-color: var(--navbar-bg);
