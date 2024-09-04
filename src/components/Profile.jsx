@@ -152,7 +152,7 @@ const Profile = ({ open, setOpen }) => {
                   <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold">
                     {authUser.user}
                   </span>
-                  <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-600">
+                  <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
                     {authUser.email}
                   </span>
 
