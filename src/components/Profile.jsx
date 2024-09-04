@@ -8,10 +8,12 @@ const Profile = ({ open, setOpen }) => {
   const { authUser, setAuthUser, cleanData } = useContext(UserContext);
   const { updateUser } = useContext(ChatContext);
 
+  // Local state to store updated user data
   const [updatedUsername, setUpdatedUsername] = useState(authUser.user);
   const [updatedEmail, setUpdatedEmail] = useState(authUser.email);
   const [authAvatar, setAuthAvatar] = useState(authUser.avatar);
 
+  // Update the profile
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,6 +37,7 @@ const Profile = ({ open, setOpen }) => {
 
     updateUser(updatedInformation);
 
+    // Update the local storage with the new user's details
     const detail = {
       id: authUser.id,
       user: updatedUsername,
@@ -59,8 +62,10 @@ const Profile = ({ open, setOpen }) => {
 
   return (
     <>
+      {/* Modal for the profile */}
       <div className={`modal ${open ? "modal-open" : ""}`}>
-        <div className="modal-box relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+        <div className="modal-box relative max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
+          {/* Close button for the modal */}
           <button
             className="btn btn-outline absolute top-4 right-6"
             onClick={() => setOpen(false)}
@@ -68,11 +73,12 @@ const Profile = ({ open, setOpen }) => {
             <i className="fa-solid fa-xmark text-xl"></i>
           </button>
 
-          <div className="profile card bg-base-100 text-base mt-10">
+          <div className="card bg-base-100 text-base w-full mt-10">
             <div className="card-body items-center text-center">
+              {/* Conditional rendering for edit mode or display mode */}
               {onEdit ? (
                 <form
-                  className="card-body flex flex-col gap-5 items-center md:px-4 lg:px-6"
+                  className="card-body flex flex-col gap-5 items-center sm:px-6 md:px-8 lg:px-12"
                   onSubmit={handleSubmit}
                 >
                   <div className="flex flex-col justify-center items-center">
@@ -86,14 +92,16 @@ const Profile = ({ open, setOpen }) => {
                         />
                       </div>
                     </div>
+                    {/* Button to choose a random avatar */}
                     <button
                       onClick={handleAvatarClick}
                       className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-v-1 hover:scale-110 md:text-xs"
                     >
-                      Click and choose
+                      Choose
                     </button>
                   </div>
 
+                  {/* Update the username */}
                   <div className="form-control w-full">
                     <input
                       type="text"
@@ -105,6 +113,7 @@ const Profile = ({ open, setOpen }) => {
                     />
                   </div>
 
+                  {/* Update the email */}
                   <div className="form-control w-full">
                     <input
                       type="email"
@@ -116,7 +125,7 @@ const Profile = ({ open, setOpen }) => {
                     />
                   </div>
 
-                  <div className="card-actions flex flex-row justify-between w-full">
+                  <div className="card-actions flex flex-row justify-center w-full">
                     <button
                       className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                       onClick={() => setOnEdit(false)}
@@ -132,6 +141,7 @@ const Profile = ({ open, setOpen }) => {
                   </div>
                 </form>
               ) : (
+                // Display mode showing current profile information
                 <div className="flex flex-col justify-center items-center gap-3">
                   <img
                     src={authUser.avatar}
@@ -145,6 +155,7 @@ const Profile = ({ open, setOpen }) => {
                     {authUser.email}
                   </span>
 
+                  {/* Button to switch to edit mode */}
                   <button
                     className="transition ease-in-out delay-150 hover:-translate-v-1 hover:scale-110 text-indigo-500 hover:text-indigo-700 duration-300 mt-4"
                     onClick={() => setOnEdit(true)}
