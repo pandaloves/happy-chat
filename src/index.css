@@ -88,7 +88,7 @@ input:focus {
     min-height: 100vh;
   }
   .messages {
-    min-height: 800px;
+    min-height: 700px;
   }
   .sidenav {
     top: 20;
