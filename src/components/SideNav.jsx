@@ -69,7 +69,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
           onSubmit={handleSearch}
         >
           <input
-            className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-purple-600 focus:border-purple-600 focus:shadow-outline"
+            className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 leading-tight focus:outline-none focus:ring-purple-600 focus:border-purple-600 focus:shadow-outline"
             id="username"
             type="text"
             placeholder="Search a user..."
