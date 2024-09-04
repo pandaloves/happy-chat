@@ -12,14 +12,12 @@ const ContactList = ({ user, setChat, matchedUser }) => {
 
   const itemRef = useRef(null);
 
-  // Scroll to the matched user if needed
   useEffect(() => {
     if (matchedUser === user.userId && itemRef.current) {
       itemRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [matchedUser, user.userId]);
 
-  // Check if the user is the authenticated user's friend
   useEffect(() => {
     const checkFriendStatus = async () => {
       const data = await fetchUser(user.userId);
@@ -45,19 +43,21 @@ const ContactList = ({ user, setChat, matchedUser }) => {
     checkFriendStatus();
   }, [authUser, user.userId, user.username]);
 
+  const handleUserClick = () => {
+    setChat(true);
+    inviteUser(user.userId);
+  };
+
   return (
     <>
       <div
         ref={itemRef}
         className="px-4 py-3 cursor-pointer hover:bg-slate-200 rounded-lg flex flex-row justify-evenly items-center h-36"
-        onClick={() => {
-          setChat(true);
-          inviteUser(user.userId);
-        }}
+        onClick={handleUserClick} // Uniform click handling
+        onTouchEnd={handleUserClick} // Handle touch events for mobile
       >
         <SpecificUser src={user.avatar} username={user.username} />
 
-        {/* Display a heart icon and "Friend" label if applicable */}
         <div className="flex flex-col items-center gap-1">
           {isAuthFriend && (
             <div className="flex flex-row items-center gap-1">
