@@ -11,6 +11,7 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
   const { authUser, cleanData } = useContext(UserContext);
   const sideNavRef = useRef(null);
 
+  // Close the sideNav when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sideNavRef.current && !sideNavRef.current.contains(event.target)) {
@@ -19,13 +20,12 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [setIsSideNavOpen]);
 
+  // Search for a user
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -73,7 +73,6 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
             <button
               className="btn p-2 bg-blue-500 text-white rounded-lg"
               type="submit"
-              onTouchStart={handleSearch}
             >
               Search
             </button>
