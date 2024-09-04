@@ -100,7 +100,7 @@ const Navbar = ({ toggleSideNav }) => {
       </div>
       {/* App title */}
       <div className="flex-1 flex justify-center">
-        <span className="text-base font-bold">Happy Chat</span>
+        <span className="text-base font-bold sm:text-xs">Happy Chat</span>
       </div>
 
       <div className="flex items-center space-x-4">
@@ -121,7 +121,7 @@ const Navbar = ({ toggleSideNav }) => {
           </svg>
 
           <svg
-            className="swap-on h-8 w-8 fill-current"
+            className="swap-on h-8 w-8 sm:h-6 sm:w-6 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
