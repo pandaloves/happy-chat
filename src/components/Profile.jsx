@@ -95,7 +95,7 @@ const Profile = ({ open, setOpen }) => {
                     {/* Button to choose a random avatar */}
                     <button
                       onClick={handleAvatarClick}
-                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-v-1 hover:scale-110"
+                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-v-1 hover:scale-110 md:text-xs"
                     >
                       Click and choose
                     </button>
@@ -127,14 +127,14 @@ const Profile = ({ open, setOpen }) => {
 
                   <div className="card-actions flex flex-row justify-between w-full">
                     <button
-                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 md:text-xs"
                       onClick={() => setOnEdit(false)}
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-outline btn-primary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                      className="btn btn-outline btn-primary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 md:text-xs"
                     >
                       Save
                     </button>
