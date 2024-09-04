@@ -59,23 +59,26 @@ const SideNav = ({ setChat, isSideNavOpen, setIsSideNavOpen }) => {
           isSideNavOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="h-20 w-full flex items-center pt-4">
-          {/* Search user form */}
+        <div className="w-full flex items-center justify-center">
           <form
-            className="rounded-lg w-full my-0 mx-2 flex items-center"
+            className="w-full flex flex-row items-center space-x-2"
             onSubmit={handleSearch}
           >
-            <div className="join w-full">
-              <input
-                className="input input-bordered join-item w-full"
-                placeholder="Search a user..."
-                value={cleanData(searchedUser)}
-                onChange={(e) => setSearchedUser(e.target.value)}
-              />
-              <button className="btn join-item rounded-r-full">Search</button>
-            </div>
+            <input
+              className="input input-bordered w-full md:w-auto p-2 rounded-lg"
+              placeholder="Search a user..."
+              value={cleanData(searchedUser)}
+              onChange={(e) => setSearchedUser(e.target.value)}
+            />
+            <button
+              className="btn p-2 bg-blue-500 text-white rounded-lg"
+              type="submit"
+            >
+              Search
+            </button>
           </form>
         </div>
+
         <div className="divider"></div>
 
         <div className="overflow-y-scroll">
