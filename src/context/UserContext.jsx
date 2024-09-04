@@ -154,8 +154,7 @@ export const UserContextProvider = ({ children }) => {
       });
 
       toast.success("Your account has been deleted successfully!");
-
-      handleLogout();
+      navigate("/");
     } catch (error) {
       toast.error("Failed to delete the account. Please try again later.");
     }
