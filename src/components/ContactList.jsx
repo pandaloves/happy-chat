@@ -53,8 +53,8 @@ const ContactList = ({ user, setChat, matchedUser }) => {
       <div
         ref={itemRef}
         className="px-4 py-3 cursor-pointer hover:bg-slate-200 rounded-lg flex flex-row justify-evenly items-center h-36"
-        onClick={handleUserClick} // Uniform click handling
-        onTouchEnd={handleUserClick} // Handle touch events for mobile
+        onClick={handleUserClick}
+        onTouchEnd={handleUserClick}
       >
         <SpecificUser src={user.avatar} username={user.username} />
 
