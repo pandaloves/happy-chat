@@ -84,7 +84,7 @@ input:focus {
     padding-top: 0;
   }
   .init-container {
-    min-height: 600px;
+    min-height: 550px;
   }
   .messages {
     min-height: 500px;
