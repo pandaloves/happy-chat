@@ -84,13 +84,13 @@ input:focus {
     padding-top: 0;
   }
   .init-container {
-    min-height: 550px;
+    min-height: 500px;
   }
   .messages {
-    min-height: 500px;
+    min-height: 450px;
   }
   .sidenav {
     top: 20;
-    height: 460px;
+    height: 420px;
   }
 }
