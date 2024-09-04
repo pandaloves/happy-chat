@@ -1,3 +1,4 @@
+/* Global Styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,7 +10,9 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-html {
+html,
+body {
+  height: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
@@ -42,6 +45,12 @@ body {
   --border-color: #ffffff;
 }
 
+input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
 .navbar,
 .sender {
   background-color: var(--navbar-bg);
@@ -55,35 +64,38 @@ body {
   border-top: 1px solid var(--border-color);
 }
 
-.init-container {
-  height: 500px;
-  background-color: var(--container-bg);
-}
-
+.init-container,
 .messages {
-  height: 450px;
   background-color: var(--container-bg);
 }
 
 .sidenav {
-  height: 480px;
-  width: 320px;
+  width: 100%;
+  max-width: 320px;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
 }
 
 @media screen and (max-width: 768px) {
   body {
     font-size: 12px;
   }
-  .chat-card {
-    margin-top: -4px;
-    padding-top: 0;
+
+  .input {
+    font-size: 14px;
+    padding: 10px;
   }
-  .init-container,
-  .message {
-    min-height: 100vh;
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
   }
+
   .sidenav {
-    top: 20;
-    height: 500px;
+    top: 20px;
+    height: 100vh;
+    max-width: none;
   }
 }
