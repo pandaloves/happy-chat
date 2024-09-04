@@ -125,18 +125,19 @@ const Profile = ({ open, setOpen }) => {
                     />
                   </div>
 
-                  <div className="card-actions flex flex-row justify-center w-full">
-                    <button
-                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
-                      onClick={() => setOnEdit(false)}
-                    >
-                      Cancel
-                    </button>
+                  <div className="card-actions flex flex-row justify-center gap-3 w-full">
                     <button
                       type="submit"
                       className="btn btn-outline btn-primary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                     >
                       Save
+                    </button>
+
+                    <button
+                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                      onClick={() => setOnEdit(false)}
+                    >
+                      Cancel
                     </button>
                   </div>
                 </form>
