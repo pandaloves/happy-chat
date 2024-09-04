@@ -81,17 +81,16 @@ input:focus {
     font-size: 12px;
   }
   .chat-card {
-    margin-top: -4px;
     padding-top: 0;
   }
   .init-container {
-    min-height: 100vh;
+    min-height: 600px;
   }
   .messages {
-    min-height: 700px;
+    min-height: 500px;
   }
   .sidenav {
     top: 20;
-    height: 500px;
+    height: 460px;
   }
 }
