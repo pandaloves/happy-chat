@@ -78,7 +78,7 @@ const Profile = ({ open, setOpen }) => {
               {/* Conditional rendering for edit mode or display mode */}
               {onEdit ? (
                 <form
-                  className="card-body flex flex-col gap-5 items-center sm:px-6 md:px-8 lg:px-12"
+                  className="card-body flex flex-col gap-5 items-center md:px-4 lg:px-6"
                   onSubmit={handleSubmit}
                 >
                   <div className="flex flex-col justify-center items-center">
@@ -127,14 +127,14 @@ const Profile = ({ open, setOpen }) => {
 
                   <div className="card-actions flex flex-row justify-between w-full">
                     <button
-                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 md:text-xs md:btn-xs"
+                      className="btn btn-outline btn-secondary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                       onClick={() => setOnEdit(false)}
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-outline btn-primary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 md:text-xs md:btn-xs"
+                      className="btn btn-outline btn-primary text-base transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                     >
                       Save
                     </button>
