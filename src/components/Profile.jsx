@@ -64,7 +64,7 @@ const Profile = ({ open, setOpen }) => {
     <>
       {/* Modal for the profile */}
       <div className={`modal ${open ? "modal-open" : ""}`}>
-        <div className="modal-box relative max-w-lg">
+        <div className="modal-box relative w-96 md:w-1/3 sm:w-3/4">
           {/* Close button for the modal */}
           <button
             className="btn btn-outline absolute top-4 right-6"
