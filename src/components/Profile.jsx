@@ -149,10 +149,10 @@ const Profile = ({ open, setOpen }) => {
                     className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 xl:w-48 xl:h-48 rounded-full mb-4"
                     alt="User Avatar"
                   />
-                  <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold">
+                  <span className="text-base font-semibold">
                     {authUser.user}
                   </span>
-                  <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
+                  <span className="text-base font-semibold">
                     {authUser.email}
                   </span>
 
