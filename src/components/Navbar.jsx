@@ -52,7 +52,7 @@ const Navbar = ({ toggleSideNav }) => {
 
   return (
     <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between px-5 rounded-t-md gap-1">
-      {/* Username, avatar and dropdown menu */}
+      {/* Authenticated user's name, avatar and dropdown menu */}
       <div className="flex flex-col md:flex-row md:gap-2">
         <div className="flex-none relative">
           <div className="dropdown dropdown-end">
