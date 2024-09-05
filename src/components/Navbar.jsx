@@ -52,52 +52,58 @@ const Navbar = ({ toggleSideNav }) => {
 
   return (
     <div className="navbar shrink-0 items-center max-w-4xl mx-auto h-28 flex flex-row justify-between px-5 rounded-t-md gap-1">
-      {/* User avatar and dropdown menu */}
-      <div className="flex-none relative">
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-16 rounded-full">
-              <img
-                src={authUser.avatar || NoAvatar}
-                alt="Auth user's avatar"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = NoAvatar;
-                }}
-              />
+      {/* Username, avatar and dropdown menu */}
+      <div className="flex flex-col md:flex-row md:gap-2">
+        <div className="flex-none relative">
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-16 md:w-12 rounded-full">
+                <img
+                  src={authUser.avatar || NoAvatar}
+                  alt="Auth user's avatar"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = NoAvatar;
+                  }}
+                />
+              </div>
             </div>
+            {/* Dropdown menu */}
+            <ul
+              tabIndex={0}
+              className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-5 shadow translate-x-36"
+            >
+              <li>
+                <span className="text-base" onClick={() => setOnProfile(true)}>
+                  Profile
+                </span>
+              </li>
+              <li>
+                <span className="text-base" onClick={handleLogout}>
+                  Logout
+                </span>
+              </li>
+              <div className="divider"></div>
+              <li>
+                <span
+                  className="text-base text-red-500 hover:text-red-400"
+                  onClick={confirmDeleteAccount}
+                >
+                  Delete Account
+                </span>
+              </li>
+            </ul>
           </div>
-          {/* Dropdown menu */}
-          <ul
-            tabIndex={0}
-            className="menu menu-md dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-5 shadow translate-x-36"
-          >
-            <li>
-              <span className="text-base" onClick={() => setOnProfile(true)}>
-                Profile
-              </span>
-            </li>
-            <li>
-              <span className="text-base" onClick={handleLogout}>
-                Logout
-              </span>
-            </li>
-            <div className="divider"></div>
-            <li>
-              <span
-                className="text-base text-red-500 hover:text-red-400"
-                onClick={confirmDeleteAccount}
-              >
-                Delete Account
-              </span>
-            </li>
-          </ul>
         </div>
+        <p className="text-lg font-bold text-secondary sm:text-xs">
+          {authUser.user}
+        </p>
       </div>
+
       {/* App title */}
       <div className="flex-1 flex justify-center">
         <span className="text-base font-bold sm:text-xs">Happy Chat</span>
