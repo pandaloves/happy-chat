@@ -57,6 +57,7 @@ export const UserContextProvider = ({ children }) => {
       });
 
       toast.success("Registered successfully!");
+
       setTimeout(() => {
         navigate("/");
       }, 1000);
@@ -160,10 +161,10 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  // Sanitize input data to prevent XSS attacks
   const cleanData = (inputValue) => {
-    return DOMPurify.sanitize(inputValue, { FORBID_TAGS: ["marquee"] });
+    return DOMPurify.sanitize(inputValue, { ALLOWED_ATTR: ["src", "href"] });
   };
+  
 
   const contextValue = {
     username,
